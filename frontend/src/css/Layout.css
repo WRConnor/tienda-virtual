@@ -1,0 +1,90 @@
+/* Reset */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Contenedor principal */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* HEADER */
+.app-header {
+  background: #1e293b;
+  color: white;
+  padding: 15px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left h1 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.header-subtitle {
+  font-size: 12px;
+  color: #cbd5e1;
+}
+
+/* BOTÓN LOGOUT */
+.logout-btn {
+  padding: 8px 14px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.logout-btn:hover {
+  background: #dc2626;
+}
+
+/* BODY */
+.app-body {
+  display: flex;
+  flex: 1;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 230px;
+  background: #f1f5f9;
+  padding: 25px 20px;
+  border-right: 1px solid #e2e8f0;
+}
+
+.nav-item {
+  display: block;
+  margin-bottom: 15px;
+  text-decoration: none;
+  color: #1e293b;
+  font-weight: 500;
+  padding: 8px 10px;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.nav-item:hover {
+  background: #e2e8f0;
+}
+
+/* ACTIVO */
+.nav-item.active {
+  background: #2563eb;
+  color: white;
+}
+
+/* MAIN CONTENT */
+.main-content {
+  flex: 1;
+  padding: 30px;
+  background: #f8fafc;
+}
