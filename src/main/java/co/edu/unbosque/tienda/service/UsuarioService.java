@@ -6,16 +6,17 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import co.edu.unbosque.tienda.model.Cliente;
-import co.edu.unbosque.tienda.repository.ClienteRepository;
+import co.edu.unbosque.tienda.model.Usuario;
+import co.edu.unbosque.tienda.repository.UsuarioRepository;
 
 @Service
-public class ClienteService implements CRUDOperations<Cliente> {
+public class UsuarioService implements CRUDOperations<Usuario> {
+	
 	@Autowired
-	ClienteRepository clienteRepository;
+	UsuarioRepository usuarioRepo;
 
 	@Override
-	public int crear(Cliente o) {
+	public int crear(Usuario o) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -27,24 +28,21 @@ public class ClienteService implements CRUDOperations<Cliente> {
 	}
 
 	@Override
-	public List<Cliente> mostrarTodo() {
+	public List<Usuario> mostrarTodo() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-
-
 	@Override
-	public int actualizar(Long id, Cliente ob) {
+	public int actualizar(Long id, Usuario ob) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public Optional<Cliente> buscarPorId(Long id) {
+	public Optional<Usuario> buscarPorId(Long id) {
 		// TODO Auto-generated method stub
 		return Optional.empty();
 	}
-
 
 }

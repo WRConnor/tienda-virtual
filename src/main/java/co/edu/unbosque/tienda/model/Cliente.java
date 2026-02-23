@@ -1,76 +1,83 @@
 package co.edu.unbosque.tienda.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
-@Document
+@Table(name="clientes")
 public class Cliente {
-	@Id
-	private String id;
-	private Long cedula;
-	private String direccion;
-	private String email;
-	private String nombre;
-	private Long telefono;
+	
+    @Id    
+    @Column(name = "cedula_cliente")
+    private Long cedulaCliente;
+
+    @Column(name = "nombre_cliente")
+    private String nombreCliente;
+
+    @Column(name = "direccion_cliente")
+    private String direccionCliente;
+
+    @Column(name = "email_cliente")
+    private String emailCliente;
+
+    @Column(name = "telefono_cliente")
+    private String telefonoCliente;
 
 	public Cliente() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Cliente( Long cedula, String direccion, String email, String nombre, Long telefono) {
+	public Cliente(Long cedulaCliente, String nombreCliente, String direccionCliente, String emailCliente,
+			String telefonoCliente) {
 		super();
-		this.cedula = cedula;
-		this.direccion = direccion;
-		this.email = email;
-		this.nombre = nombre;
-		this.telefono = telefono;
+		this.cedulaCliente = cedulaCliente;
+		this.nombreCliente = nombreCliente;
+		this.direccionCliente = direccionCliente;
+		this.emailCliente = emailCliente;
+		this.telefonoCliente = telefonoCliente;
 	}
 
-	public String getId() {
-		return id;
+	public Long getCedulaCliente() {
+		return cedulaCliente;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setCedulaCliente(Long cedulaCliente) {
+		this.cedulaCliente = cedulaCliente;
 	}
 
-	public Long getCedula() {
-		return cedula;
+	public String getNombreCliente() {
+		return nombreCliente;
 	}
 
-	public void setCedula(Long cedula) {
-		this.cedula = cedula;
+	public void setNombreCliente(String nombreCliente) {
+		this.nombreCliente = nombreCliente;
 	}
 
-	public String getDireccion() {
-		return direccion;
+	public String getDireccionCliente() {
+		return direccionCliente;
 	}
 
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
+	public void setDireccionCliente(String direccionCliente) {
+		this.direccionCliente = direccionCliente;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getEmailCliente() {
+		return emailCliente;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setEmailCliente(String emailCliente) {
+		this.emailCliente = emailCliente;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getTelefonoCliente() {
+		return telefonoCliente;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setTelefonoCliente(String telefonoCliente) {
+		this.telefonoCliente = telefonoCliente;
 	}
+	
+	
 
-	public Long getTelefono() {
-		return telefono;
-	}
 
-	public void setTelefono(Long telefono) {
-		this.telefono = telefono;
-	}
 }
