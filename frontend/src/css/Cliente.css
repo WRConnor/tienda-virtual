@@ -1,0 +1,77 @@
+.cliente-wrapper {
+  padding: 30px;
+  background-color: #dcdcdc;
+  min-height: 100vh;
+}
+
+.cliente-card {
+  background: #f4f4f4;
+  padding: 25px;
+  border-radius: 6px;
+  margin-bottom: 30px;
+}
+
+.cliente-card h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.cliente-form {
+  display: flex;
+  gap: 60px;
+  margin-bottom: 20px;
+}
+
+.form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-column input {
+  width: 220px;
+  padding: 6px;
+  border: 1px solid #aaa;
+  background-color: #fff;
+}
+
+.cliente-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.cliente-buttons button {
+  padding: 8px 20px;
+  background-color: #8e8e8e;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+.cliente-buttons button:hover {
+  background-color: #6f6f6f;
+}
+
+.cliente-table-container {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+.cliente-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cliente-table th,
+.cliente-table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.cliente-table th {
+  background-color: #9e9e9e;
+  color: white;
+}

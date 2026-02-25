@@ -1,0 +1,136 @@
+.tabla-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-container th,
+.tabla-container td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.card-metrica {
+  background: #f4f4f4;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 10px;
+}
+
+.dashboard-grid {
+  display: flex;
+  gap: 20px;
+}
+
+/* ===== TÍTULOS ===== */
+h1, h2 {
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 20px;
+}
+
+/* ===== BOTONES ===== */
+.btn {
+  padding: 10px 18px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  margin-right: 10px;
+}
+
+.btn-primary {
+  background-color: #2563eb;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: #64748b;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #475569;
+  transform: translateY(-2px);
+}
+
+.btn-success {
+  background-color: #16a34a;
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: #15803d;
+  transform: translateY(-2px);
+}
+
+/* ===== TARJETA TOTAL ===== */
+.total-card {
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* ===== TABLA MEJORADA ===== */
+.tabla-container table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.tabla-container th {
+  background-color: #1e293b;
+  color: white;
+  padding: 12px;
+}
+
+.tabla-container td {
+  padding: 10px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.tabla-container tr:hover {
+  background-color: #f1f5f9;
+}
+
+/* ===== MENÚ REPORTES ===== */
+.menu-reportes {
+  margin-bottom: 25px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-menu {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background-color: #f8fafc;
+  cursor: pointer;
+  font-weight: 500;
+  color: #1e293b;
+  transition: all 0.25s ease;
+}
+
+/* Hover elegante */
+.btn-menu:hover {
+  background-color: #e2e8f0;
+  transform: translateY(-2px);
+}
+
+/* Estado activo */
+.btn-menu.activo {
+  background: linear-gradient(135deg, #1e3a8a, #2563eb);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}

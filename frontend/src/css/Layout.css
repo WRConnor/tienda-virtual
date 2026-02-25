@@ -88,3 +88,9 @@ body {
   padding: 30px;
   background: #f8fafc;
 }
+
+.header-left h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
