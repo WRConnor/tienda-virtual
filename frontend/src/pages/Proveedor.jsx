@@ -71,7 +71,7 @@ function Proveedor() {
     <div className="proveedor-wrapper">
 
       <div className="proveedor-card">
-        <h2>Gestión de Proveedores</h2>
+        <h2>Proveedores</h2>
 
         <div className="proveedor-form">
 

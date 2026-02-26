@@ -24,8 +24,7 @@ function Reporte() {
   return (
     <div>
 
-      <h1>Módulo de Consultas y Reportes</h1>
-
+      <h1>Consultas y reportes</h1>
       <div className="menu-reportes">
         <button
           className={`btn-menu ${vista === "dashboard" ? "activo" : ""}`}

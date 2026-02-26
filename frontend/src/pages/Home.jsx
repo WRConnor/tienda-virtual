@@ -1,5 +1,5 @@
 function Home() {
-  return <h1>Tienda Virtual</h1>;
+  return <h1>Welcome</h1>;
 }
 
 export default Home;

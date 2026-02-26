@@ -1,3 +1,5 @@
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 import { clientesMock, ventasMock } from "../../config/mockData";
 import TablaGenerica from "../../components/TablaGenerica";
 
@@ -24,24 +26,73 @@ function VentasPorCliente() {
 
   // ===== EXPORTAR CSV =====
   const exportarCSV = () => {
-    const encabezado = "Cedula,Nombre,TotalCompras\n";
-    const filas = datosAgrupados
-      .map(c => `${c.cedula},${c.nombre},${c.totalCompras}`)
-      .join("\n");
 
-    const blob = new Blob([encabezado + filas], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
+  const fecha = new Date().toISOString().split("T")[0];
 
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "ventas_por_cliente.csv";
-    link.click();
-  };
+  // Encabezado con separador ;
+  const encabezado = "Cédula;Nombre;Total Compras\n";
 
-  // ===== EXPORTAR PDF (simple con print) =====
+  const filas = datosAgrupados
+    .map(c =>
+      `${c.cedula};${c.nombre};${c.totalCompras.toLocaleString()}`
+    )
+    .join("\n");
+
+  // BOM para que Excel reconozca UTF-8 correctamente
+  const BOM = "\uFEFF";
+
+  const blob = new Blob(
+    [BOM + encabezado + filas],
+    { type: "text/csv;charset=utf-8;" }
+  );
+
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `reporte_ventas_por_cliente_${fecha}.csv`;
+  link.click();
+
+  URL.revokeObjectURL(url);
+};
+
+  // ===== EXPORTAR PDF =====
   const exportarPDF = () => {
-    window.print();
-  };
+
+  const doc = new jsPDF();
+
+  doc.setFontSize(18);
+  doc.text("Reporte de Ventas por Cliente", 14, 20);
+
+  doc.setFontSize(12);
+  doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 14, 30);
+
+  autoTable(doc, {
+    startY: 40,
+    head: [["Cédula", "Nombre", "Total Compras"]],
+    body: datosAgrupados.map(cliente => [
+      cliente.cedula,
+      cliente.nombre,
+      `$ ${cliente.totalCompras.toLocaleString()}`
+    ]),
+  });
+
+  const finalY = doc.lastAutoTable.finalY + 10;
+
+  doc.setFont(undefined, "bold");
+  doc.text(
+    `Total General: $ ${totalGeneral.toLocaleString()}`,
+    14,
+    finalY
+  );
+
+  const fecha = new Date();
+
+  const fechaFormateada = fecha.toISOString().split("T")[0]; 
+  // formato: 2026-02-26
+
+  doc.save(`reporte_ventas_por_cliente_${fechaFormateada}.pdf`);
+};
 
   return (
     <div>
