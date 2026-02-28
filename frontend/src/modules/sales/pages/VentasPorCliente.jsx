@@ -1,7 +1,7 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import { clientesMock, ventasMock } from "../../config/mockData";
-import TablaGenerica from "../../components/TablaGenerica";
+import { clientesMock, ventasMock } from "../../../config/mockData";
+import TablaGenerica from "../../../shared/components/TablaGenerica";
 
 function VentasPorCliente() {
 

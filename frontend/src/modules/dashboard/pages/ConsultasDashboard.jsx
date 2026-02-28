@@ -1,5 +1,5 @@
-import { ventasMock } from "../../config/mockData";
-import CardMetrica from "../../components/CardMetrica";
+import { ventasMock } from "../../../config/mockData";
+import CardMetrica from "../../../shared/components/CardMetrica";
 
 function ConsultasDashboard() {
 

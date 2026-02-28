@@ -1,13 +1,27 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import authService from "../services/authService";
-import "../css/Login.css";
+import "../styles/Login.css";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  const login = (username, password) => {
+  const usuario = usuariosMock.find(
+    u => u.username === username && u.password === password
+  );
+
+  if (!usuario) {
+    alert("Credenciales incorrectas");
+    return;
+  }
+
+  localStorage.setItem("usuario", JSON.stringify(usuario));
+  window.location.href = "/dashboard";
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();

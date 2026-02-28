@@ -13,3 +13,18 @@ export const ventasMock = [
   { cedulaCliente: 3001, total: 200000 },
   { cedulaCliente: 3002, total: 800000 }
 ];
+
+export const roles = [
+  {
+    id: 1,
+    username: "admin",
+    password: "admin123456",
+    rol: "ADMIN"
+  },
+  {
+    id: 2,
+    username: "Carlos Ruiz",
+    password: "1234",
+    rol: "USER"
+  }
+];

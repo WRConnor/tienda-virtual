@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../css/Producto.css";
+import "../styles/Producto.css";
 
 function Producto() {
   const [productos, setProductos] = useState([]);

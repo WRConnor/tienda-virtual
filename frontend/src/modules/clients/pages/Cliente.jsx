@@ -1,5 +1,6 @@
 import { useState } from "react";
-import "../css/Cliente.css";
+import { esAdmin } from "../../auth/context/auth";
+import "../styles/Cliente.css";
 
 function Cliente() {
   const [clientes, setClientes] = useState([]);
@@ -98,7 +99,7 @@ function Cliente() {
 
         <div className="cliente-buttons">
           <button type="button" onClick={consultarCliente}>Consultar</button>
-          <button type="button" onClick={crearCliente}>Crear</button>
+          {esAdmin() && (<button type="button" onClick={crearCliente}>Crear</button>)}
           <button type="button" onClick={actualizarCliente}>Actualizar</button>
           <button type="button" onClick={borrarCliente}>Borrar</button>
         </div>

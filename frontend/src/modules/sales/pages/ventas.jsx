@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../css/Venta.css";
+import "../styles/Venta.css";
 
 function Venta() {
 

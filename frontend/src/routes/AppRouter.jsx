@@ -1,15 +1,15 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import Login from "../pages/Login";
-import Layout from "../components/Layout";
+import Login from "../modules/auth/pages/Login";
+import Layout from "../shared/components/Layout";
 import PrivateRoute from "./PrivateRoute";
 
-import Usuario from "../pages/Usuario";
-import Cliente from "../pages/Cliente";
-import Proveedor from "../pages/Proveedor";
-import Producto from "../pages/Producto";
-import Ventas from "../pages/ventas";
-import Reporte from "../pages/Reporte";
+import Usuario from "../modules/users/pages/Usuario";
+import Cliente from "../modules/clients/pages/Cliente";
+import Proveedor from "../modules/suppliers/pages/Proveedor";
+import Producto from "../modules/products/pages/Producto";
+import Ventas from "../modules/sales/pages/Ventas";
+import Reporte from "../modules/reports/pages/Reporte";
 
 function AppRouter() {
   return (

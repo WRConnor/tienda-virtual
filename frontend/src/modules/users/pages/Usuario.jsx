@@ -1,5 +1,6 @@
 import { useState } from "react";
-import "../css/Usuario.css";
+import { esAdmin } from "../../auth/context/auth";
+import "../styles/Usuario.css";
 
 function Usuario() {
   const [usuarios, setUsuarios] = useState([
@@ -109,7 +110,7 @@ function Usuario() {
 
         <div className="usuario-buttons">
         <button type="button" onClick={consultarUsuario}>Consultar</button>
-        <button type="button" onClick={crearUsuario}>Crear</button>
+        {esAdmin() && (<button type="button" onClick={crearUsuario}>Crear</button>)}
         <button type="button" onClick={actualizarUsuario}>Actualizar</button>
         <button type="button" onClick={borrarUsuario}>Borrar</button>
         </div>

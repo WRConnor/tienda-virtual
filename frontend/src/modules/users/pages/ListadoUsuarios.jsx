@@ -1,5 +1,5 @@
-import { usuariosMock } from "../../config/mockData";
-import TablaGenerica from "../../components/TablaGenerica";
+import { usuariosMock } from "../../../config/mockData";
+import TablaGenerica from "../../../shared/components/TablaGenerica";
 
 function ListadoUsuarios() {
 

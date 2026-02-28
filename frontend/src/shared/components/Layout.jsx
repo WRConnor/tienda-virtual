@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import "../css/Layout.css";
+import "../styles/Layout.css";
 
 function Layout() {
   const navigate = useNavigate();

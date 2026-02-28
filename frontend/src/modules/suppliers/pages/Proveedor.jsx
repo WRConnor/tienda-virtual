@@ -1,5 +1,6 @@
 import { useState } from "react";
-import "../css/Proveedor.css";
+import { esAdmin } from "../../auth/context/auth";
+import "../styles/Proveedor.css";
 
 function Proveedor() {
   const [proveedores, setProveedores] = useState([]);
@@ -98,7 +99,7 @@ function Proveedor() {
 
         <div className="proveedor-buttons">
           <button type="button" onClick={consultarProveedor}>Consultar</button>
-          <button type="button" onClick={crearProveedor}>Crear</button>
+          {esAdmin() && (<button type="button" onClick={crearProveedor}>Crear</button>)}
           <button type="button" onClick={actualizarProveedor}>Actualizar</button>
           <button type="button" onClick={borrarProveedor}>Borrar</button>
         </div>

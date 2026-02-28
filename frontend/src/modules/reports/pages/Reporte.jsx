@@ -1,8 +1,8 @@
 import { useState } from "react";
-import ConsultasDashboard from "./queries/ConsultasDashboard";
-import ListadoUsuarios from "./queries/ListadoUsuarios";
-import ListadoClientes from "./queries/ListadoClientes";
-import VentasPorCliente from "./queries/VentasPorCliente";
+import ConsultasDashboard from "../../dashboard/pages/ConsultasDashboard";
+import ListadoUsuarios from "../../users/pages/ListadoUsuarios";
+import ListadoClientes from "../../clients/pages/ListadoClientes";
+import VentasPorCliente from "../../sales/pages/VentasPorCliente";
 
 function Reporte() {
 
