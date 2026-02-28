@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Login from "../modules/auth/pages/Login";
 import Layout from "../shared/components/Layout";
-import PrivateRoute from "./PrivateRoute";
+import ProtectedRoute from "./ProtectedRoutes";
 
 import Usuario from "../modules/users/pages/Usuario";
 import Cliente from "../modules/clients/pages/Cliente";
@@ -20,21 +20,77 @@ function AppRouter() {
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
 
-        {/* Rutas protegidas */}
+        {/* Layout protegido (solo autenticados) */}
         <Route
           element={
-            <PrivateRoute>
+            <ProtectedRoute>
               <Layout />
-            </PrivateRoute>
+            </ProtectedRoute>
           }
         >
-          <Route path="/usuarios" element={<Usuario />} />
-          <Route path="/clientes" element={<Cliente />} />
-          <Route path="/proveedores" element={<Proveedor />} />
-          <Route path="/productos" element={<Producto />} />
-          <Route path="/ventas" element={<Ventas />} />
-          <Route path="/reportes" element={<Reporte />} />
+          {/* SOLO ADMIN */}
+          <Route
+            path="/usuarios"
+            element={
+              <ProtectedRoute allowedRoles={["ADMIN"]}>
+                <Usuario />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/proveedores"
+            element={
+              <ProtectedRoute allowedRoles={["ADMIN"]}>
+                <Proveedor />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* ADMIN y GERENTE */}
+          <Route
+            path="/reportes"
+            element={
+              <ProtectedRoute allowedRoles={["ADMIN", "GERENTE"]}>
+                <Reporte />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* ADMIN, GERENTE, USER */}
+          <Route
+            path="/ventas"
+            element={
+              <ProtectedRoute allowedRoles={["ADMIN", "GERENTE", "USER"]}>
+                <Ventas />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* ADMIN y USER */}
+          <Route
+            path="/clientes"
+            element={
+              <ProtectedRoute allowedRoles={["ADMIN", "USER"]}>
+                <Cliente />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* ADMIN */}
+          <Route
+            path="/productos"
+            element={
+              <ProtectedRoute allowedRoles={["ADMIN"]}>
+                <Producto />
+              </ProtectedRoute>
+            }
+          />
+
         </Route>
+
+        {/* Ruta fallback */}
+        <Route path="*" element={<Navigate to="/login" />} />
 
       </Routes>
     </BrowserRouter>

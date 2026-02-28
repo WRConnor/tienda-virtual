@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/authContext"
 import authService from "../services/authService";
 import "../styles/Login.css";
 
@@ -7,21 +8,11 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
   const navigate = useNavigate();
 
-  const login = (username, password) => {
-  const usuario = usuariosMock.find(
-    u => u.username === username && u.password === password
-  );
-
-  if (!usuario) {
-    alert("Credenciales incorrectas");
-    return;
-  }
-
-  localStorage.setItem("usuario", JSON.stringify(usuario));
-  window.location.href = "/dashboard";
-};
+  // 🔥 Traemos el contexto global
+  const { setIsAuthenticated, setRoles, setUser } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,10 +26,18 @@ function Login() {
     try {
       const data = await authService.login({ username, password });
 
+      // Guardar token
       localStorage.setItem("token", data.token);
 
+      // 🔐 Actualizar estado global
+      setIsAuthenticated(true);
+      setRoles(data.roles || ["ADMIN"]); // usa data.roles cuando backend lo envíe
+      setUser({ username });
+
+      // 🚀 Navegar
       navigate("/usuarios");
-    } catch {
+
+    } catch (err) {
       setError("Credenciales incorrectas");
     }
   };

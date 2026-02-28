@@ -3,6 +3,7 @@ import ConsultasDashboard from "../../dashboard/pages/ConsultasDashboard";
 import ListadoUsuarios from "../../users/pages/ListadoUsuarios";
 import ListadoClientes from "../../clients/pages/ListadoClientes";
 import VentasPorCliente from "../../sales/pages/VentasPorCliente";
+import "../../../css/global.css"
 
 function Reporte() {
 
