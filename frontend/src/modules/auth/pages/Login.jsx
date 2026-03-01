@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/context/authContext";
+import { api } from "../../../api/api";
 import "../styles/Login.css";
 
 function Login() {
@@ -11,33 +12,29 @@ function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
+    // 🔹 Validar campos
     if (!username.trim() || !password.trim()) {
-      setError("Todos los campos son obligatorios");
+      setError("Faltan datos del usuario");
       return;
     }
 
-    // 🔹 Login simulado
-    let usuarioData = null;
+    try {
+      // 🔹 Llamada al mock API
+      const usuarioData = await api.login({ username, password });
 
-    if (username === "admin" && password === "admin123456") {
-      usuarioData = { username: "admin", rol: "ADMIN" };
-    } else if (username === "cliente1" && password === "cliente123") {
-      usuarioData = { username: "cliente1", rol: "CLIENTE" };
-    } else {
-      setError("Credenciales incorrectas");
-      return;
+      // 🔹 Guardar usuario en contexto y localStorage
+      login({ username, rol: usuarioData.rol });
+
+      // 🔹 Redirección según rol
+      if (usuarioData.rol === "ADMIN") navigate("/usuarios");
+      else if (usuarioData.rol === "CLIENTE") navigate("/usuarios");
+    } catch (err) {
+      setError(err.message); // 🔹 Mostrar mensaje de error del mock
     }
-
-    // 🔹 Guardar usuario en contexto y localStorage
-    login(usuarioData);
-
-    // 🔹 Redirección según rol
-    if (usuarioData.rol === "ADMIN") navigate("/usuarios");
-    else if (usuarioData.rol === "CLIENTE") navigate("/usuarios");
   };
 
   return (
