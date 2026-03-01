@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/authContext"
-import authService from "../services/authService";
+import { useAuth } from "../../auth/context/authContext";
 import "../styles/Login.css";
 
 function Login() {
@@ -10,11 +9,9 @@ function Login() {
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
+  const { login } = useAuth();
 
-  // 🔥 Traemos el contexto global
-  const { setIsAuthenticated, setRoles, setUser } = useAuth();
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
 
@@ -23,23 +20,24 @@ function Login() {
       return;
     }
 
-    try {
-      const data = await authService.login({ username, password });
+    // 🔹 Login simulado
+    let usuarioData = null;
 
-      // Guardar token
-      localStorage.setItem("token", data.token);
-
-      // 🔐 Actualizar estado global
-      setIsAuthenticated(true);
-      setRoles(data.roles || ["ADMIN"]); // usa data.roles cuando backend lo envíe
-      setUser({ username });
-
-      // 🚀 Navegar
-      navigate("/usuarios");
-
-    } catch (err) {
+    if (username === "admin" && password === "admin123456") {
+      usuarioData = { username: "admin", rol: "ADMIN" };
+    } else if (username === "cliente1" && password === "cliente123") {
+      usuarioData = { username: "cliente1", rol: "CLIENTE" };
+    } else {
       setError("Credenciales incorrectas");
+      return;
     }
+
+    // 🔹 Guardar usuario en contexto y localStorage
+    login(usuarioData);
+
+    // 🔹 Redirección según rol
+    if (usuarioData.rol === "ADMIN") navigate("/usuarios");
+    else if (usuarioData.rol === "CLIENTE") navigate("/usuarios");
   };
 
   return (

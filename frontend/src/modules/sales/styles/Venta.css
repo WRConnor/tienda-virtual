@@ -1,39 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
 .venta-wrapper {
   padding: 60px 120px;
-  background-color: #f5f6f8;
   min-height: 100vh;
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
 }
 
 .venta-wrapper h2 {
   margin-bottom: 40px;
   font-size: 28px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.5px;
 }
 
 /* TARJETA CENTRAL */
 .venta-card {
-  background: white;
-  padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+  background: #ffffff;
+  padding: 45px;
+  border-radius: 18px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.15);
 }
 
-/* FILA SUPERIOR */
+/* FILAS */
 .fila-superior {
   display: grid;
   grid-template-columns: 200px 120px 300px 150px;
-  gap: 20px;
+  gap: 25px;
   align-items: end;
-  margin-bottom: 40px;
+  margin-bottom: 45px;
 }
 
-/* FILA PRODUCTO */
 .fila-producto {
   display: grid;
   grid-template-columns: 180px 120px 260px 100px 180px 120px;
-  gap: 20px;
+  gap: 25px;
   align-items: end;
-  margin-bottom: 40px;
+  margin-bottom: 45px;
 }
 
 /* CAMPOS */
@@ -49,43 +53,61 @@
 .campo label {
   font-size: 13px;
   margin-bottom: 6px;
-  font-weight: bold;
+  font-weight: 600;
+  color: #475569;
+  letter-spacing: 0.3px;
 }
 
+/* INPUTS REFINADOS */
 input {
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #cfd4da;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
   font-size: 14px;
+  transition: all 0.25s ease;
 }
 
-/* BOTONES */
+input:focus {
+  outline: none;
+  border-color: #2563eb;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+/* BOTONES BASE */
 button {
-  padding: 10px 18px;
-  border-radius: 6px;
+  padding: 12px 20px;
+  border-radius: 10px;
   border: none;
-  background-color: #6c757d;
-  color: white;
-  cursor: pointer;
+  font-weight: 500;
   font-size: 14px;
-  height: 40px;
+  cursor: pointer;
+  height: 42px;
+  transition: all 0.25s ease;
+  background-color: #2563eb;
+  color: white;
 }
 
 button:hover {
-  background-color: #5a6268;
+  background-color: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(37,99,235,0.3);
 }
 
 /* DETALLE */
 .detalle-lista {
-  margin-bottom: 40px;
+  margin-bottom: 45px;
 }
 
 .detalle-item {
   display: grid;
   grid-template-columns: 180px 260px 100px 180px;
   gap: 20px;
-  padding: 8px 0;
-  border-bottom: 1px solid #eee;
+  padding: 12px 0;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 14px;
+  color: #1e293b;
 }
 
 /* SECCION FINAL */
@@ -93,6 +115,7 @@ button:hover {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  margin-top: 20px;
 }
 
 /* TOTALES */
@@ -104,13 +127,22 @@ button:hover {
 
 .totales div {
   display: contents;
+  font-size: 14px;
+  color: #1e293b;
 }
 
+.totales strong {
+  font-weight: 600;
+}
+
+/* BOTON CONFIRMAR */
 .confirmar button {
-  background-color: #198754;
-  padding: 12px 30px;
+  background-color: #16a34a;
+  padding: 14px 35px;
+  font-weight: 600;
 }
 
 .confirmar button:hover {
-  background-color: #157347;
+  background-color: #15803d;
+  box-shadow: 0 12px 30px rgba(22,163,74,0.3);
 }

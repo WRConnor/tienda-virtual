@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../modules/auth//context/authContext";
+import { useAuth } from "../modules/auth/context/authContext";
 
 const roleHierarchy = {
   ADMIN: 3,
@@ -8,9 +8,9 @@ const roleHierarchy = {
 };
 
 const ProtectedRoute = ({ children, allowedRoles = [] }) => { 
-  const { isAuthenticated, roles } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated || !user) {
     return <Navigate to="/login" replace />;
   }
 
@@ -18,12 +18,10 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
     return children;
   }
 
-  const userMaxLevel = Math.max(
-    ...roles.map(role => roleHierarchy[role] || 0)
-  );
+  const userLevel = roleHierarchy[user.rol] || 0;
 
   const hasPermission = allowedRoles.some(
-    role => userMaxLevel >= (roleHierarchy[role] || 0)
+    role => userLevel >= (roleHierarchy[role] || 0)
   );
 
   if (!hasPermission) {
@@ -32,7 +30,5 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
 
   return children;
 };
-
-
 
 export default ProtectedRoute;
