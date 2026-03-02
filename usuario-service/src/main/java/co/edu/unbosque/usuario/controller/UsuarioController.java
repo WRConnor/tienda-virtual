@@ -68,4 +68,14 @@ public class UsuarioController {
 			return new ResponseEntity<>(encontrado,HttpStatus.ACCEPTED); 
 		}
 	}
+	
+	@GetMapping("/login")
+	public ResponseEntity<String> login(String user, String password){
+		Boolean login = usuarioServ.login(password, user);
+		if(login) {
+			return new ResponseEntity<>("Accedido",HttpStatus.ACCEPTED);
+		}else {
+			return new ResponseEntity<>("Usuario o contra no valida",HttpStatus.UNAUTHORIZED);
+		}
+	}
 }

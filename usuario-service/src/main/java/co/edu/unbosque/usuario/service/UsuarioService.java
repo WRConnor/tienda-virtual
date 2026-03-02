@@ -70,6 +70,16 @@ public class UsuarioService implements CRUDOperations<Usuario> {
 		return usuarioRepo.findById(id);
 	}
 	
+	public boolean login(String password, String user) {
+		for (Usuario u : mostrarTodo()) {
+			if (u.getUsuario().equals(user) & u.getPassword().equals(password)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
 	public boolean findTitleAlreadyTaken(Usuario newUsuario) {
 		Optional<Usuario> found = usuarioRepo.findByCedulaUsuario(newUsuario.getCedulaUsuario());
 		if (found.isPresent()) {
