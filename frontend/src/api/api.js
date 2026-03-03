@@ -1,54 +1,32 @@
 // services/api.js
+
+const API = "http://localhost:8080/api";
+
 export const api = {
   login: async ({ username, password }) => {
     if (!username || !password) {
       throw new Error("Faltan datos del usuario");
     }
-    if (username === "admininicial" && password === "admin123456") {
-      return { username: "admininicial", rol: "ADMIN" };
-    } else if (username === "cliente1" && password === "cliente123") {
-      return { username: "cliente1", rol: "CLIENTE" };
-    } else {
-      throw new Error("Credenciales incorrectas");
-    }
-  },
 
-  crearUsuario: async (usuario) => {
-    if (!usuario.username || !usuario.password) {
-      throw new Error("Faltan datos del usuario");
-    }
-    if (usuario.username === "admininicial" && usuario.password === "admin123456") {
-      return { message: "Usuario Creado" };
-    } else {
-      throw new Error("usuario o contraseña errados, intente de nuevo");
-    }
-  },
+    const response = await fetch(
+      `${API}/usuarios/login?user=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+    );
 
-  consultarUsuario: async (cedula) => {
-    if (cedula === "123456") {
-      return {
-        nombre: "Juan Pérez",
-        correo: "juan@example.com",
-        usuario: "juanp",
-        password: "pass123",
-      };
-    } else {
-      throw new Error("Usuario Inexistente");
+    if (!response.ok) {
+      throw new Error("Usuario o contraseña incorrectos");
     }
-  },
 
-  actualizarUsuario: async (usuario) => {
-    if (!usuario.nombre || !usuario.correo) {
-      throw new Error("Datos faltantes");
-    }
-    return { message: "Datos del Usuario Actualizados" };
-  },
+    const text = await response.text();
 
-  borrarUsuario: async (cedula) => {
-    if (cedula === "123456") {
-      return { message: "Datos del Usuario Borrados" };
-    } else {
-      throw new Error("Cédula Errada");
+    if (text !== "Accedido") {
+      throw new Error("Usuario o contraseña incorrectos");
     }
-  },
+
+    // Como backend no devuelve rol, lo definimos aquí
+    if (username === "admin" && password === "admin123456") {
+      return { username, rol: "ADMIN" };
+    }
+
+    return { username, rol: "USER" };
+  }
 };

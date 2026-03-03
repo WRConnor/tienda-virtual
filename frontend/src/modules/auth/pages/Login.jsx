@@ -16,24 +16,24 @@ function Login() {
     e.preventDefault();
     setError("");
 
-    // 🔹 Validar campos
     if (!username.trim() || !password.trim()) {
       setError("Faltan datos del usuario");
       return;
     }
 
     try {
-      // 🔹 Llamada al mock API
       const usuarioData = await api.login({ username, password });
 
-      // 🔹 Guardar usuario en contexto y localStorage
-      login({ username, rol: usuarioData.rol });
+      login(usuarioData);
 
-      // 🔹 Redirección según rol
-      if (usuarioData.rol === "ADMIN") navigate("/usuarios");
-      else if (usuarioData.rol === "CLIENTE") navigate("/usuarios");
+      if (usuarioData.rol === "ADMIN") {
+        navigate("/usuarios");   // 👈 esta es la clave real
+      } else {
+        navigate("/clientes"); 
+      }
+
     } catch (err) {
-      setError(err.message); // 🔹 Mostrar mensaje de error del mock
+      setError(err.message);
     }
   };
 

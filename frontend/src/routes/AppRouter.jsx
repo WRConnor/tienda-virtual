@@ -71,7 +71,7 @@ function AppRouter() {
           <Route
             path="/clientes"
             element={
-              <ProtectedRoute allowedRoles={["ADMIN", "USER"]}>
+              <ProtectedRoute allowedRoles={["ADMIN", "USER", "CLIENTE"]}>
                 <Cliente />
               </ProtectedRoute>
             }
