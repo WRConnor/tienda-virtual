@@ -69,7 +69,7 @@ public class UsuarioController {
 		}
 	}
 	
-	@GetMapping("/login")
+	@PostMapping("/login")
 	public ResponseEntity<String> login(String user, String password){
 		Boolean login = usuarioServ.login(password, user);
 		if(login) {
