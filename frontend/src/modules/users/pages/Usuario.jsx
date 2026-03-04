@@ -186,6 +186,7 @@ function Usuario() {
           <tbody>
             {usuarios.map((u) => (
               <tr key={u.idUsuario} onClick={() => seleccionarUsuario(u)}>
+                <td>{u.idUsuario}</td>
                 <td>{u.cedulaUsuario}</td>
                 <td>{u.nombreUsuario}</td>
                 <td>{u.emailUsuario}</td>
