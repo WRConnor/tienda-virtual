@@ -1,4 +1,5 @@
 import { useAuth } from "../../auth/context/authContext";
+import { api } from "../../../api/api";
 import "../styles/Usuario.css";
 
 function UsuarioCliente() {

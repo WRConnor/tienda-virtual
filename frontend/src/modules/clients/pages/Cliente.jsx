@@ -1,40 +1,77 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { esAdmin } from "../../auth/context/auth";
+import { api } from "../../../api/api";
 import "../styles/Cliente.css";
 
 function Cliente() {
+
   const [clientes, setClientes] = useState([]);
 
   const [form, setForm] = useState({
-    cedula: "",
-    nombre: "",
-    direccion: "",
-    telefono: "",
-    correo: ""
+    idCliente: null,
+    cedulaCliente: "",
+    nombreCliente: "",
+    direccionCliente: "",
+    telefonoCliente: "",
+    emailCliente: ""
   });
 
+  // =========================
+  // CARGAR CLIENTES
+  // =========================
+  useEffect(() => {
+    cargarClientes();
+  }, []);
+
+  const cargarClientes = async () => {
+    try {
+      const data = await api.getClientes();
+      console.log(data);
+      setClientes(data);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  // =========================
+  // HANDLE INPUT
+  // =========================
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const crearCliente = () => {
-    if (!form.cedula || !form.nombre || !form.direccion || !form.telefono || !form.correo) {
-      alert("Todos los campos son obligatorios");
-      return;
-    }
-
-    const existe = clientes.find(c => c.cedula === form.cedula);
-    if (existe) {
-      alert("El cliente ya existe");
-      return;
-    }
-
-    setClientes([...clientes, form]);
-    limpiar();
+  const limpiar = () => {
+    setForm({
+      idCliente: null,
+      cedulaCliente: "",
+      nombreCliente: "",
+      direccionCliente: "",
+      telefonoCliente: "",
+      emailCliente: ""
+    });
   };
 
+  // =========================
+  // CREAR
+  // =========================
+  const crearCliente = async () => {
+    try {
+      await api.crearCliente(form);
+      await cargarClientes();
+      limpiar();
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  // =========================
+  // CONSULTAR (FILTRA LOCALMENTE POR CÉDULA)
+  // =========================
   const consultarCliente = () => {
-    const cliente = clientes.find(c => c.cedula === form.cedula);
+    const cliente = clientes.find(
+      c => c.cedulaCliente === Number(form.cedulaCliente)
+    );
+
     if (cliente) {
       setForm(cliente);
     } else {
@@ -42,30 +79,40 @@ function Cliente() {
     }
   };
 
-  const actualizarCliente = () => {
-    setClientes(
-      clientes.map(c =>
-        c.cedula === form.cedula ? form : c
-      )
-    );
-    limpiar();
+  // =========================
+  // ACTUALIZAR (POR ID)
+  // =========================
+  const actualizarCliente = async () => {
+    if (!form.idCliente) {
+      alert("Primero consulte el cliente");
+      return;
+    }
+
+    try {
+      await api.actualizarCliente(form.idCliente, form);
+      await cargarClientes();
+      limpiar();
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
-  const borrarCliente = () => {
-    setClientes(
-      clientes.filter(c => c.cedula !== form.cedula)
-    );
-    limpiar();
-  };
+  // =========================
+  // BORRAR (POR ID)
+  // =========================
+  const borrarCliente = async () => {
+    if (!form.idCliente) {
+      alert("Primero consulte el cliente");
+      return;
+    }
 
-  const limpiar = () => {
-    setForm({
-      cedula: "",
-      nombre: "",
-      direccion: "",
-      telefono: "",
-      correo: ""
-    });
+    try {
+      await api.borrarCliente(form.idCliente);
+      await cargarClientes();
+      limpiar();
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
   return (
@@ -78,28 +125,30 @@ function Cliente() {
 
           <div className="form-column">
             <label>Cédula</label>
-            <input name="cedula" value={form.cedula} onChange={handleChange} />
+            <input name="cedulaCliente" value={form.cedulaCliente} onChange={handleChange} />
 
             <label>Nombre Completo</label>
-            <input name="nombre" value={form.nombre} onChange={handleChange} />
+            <input name="nombreCliente" value={form.nombreCliente} onChange={handleChange} />
 
             <label>Dirección</label>
-            <input name="direccion" value={form.direccion} onChange={handleChange} />
+            <input name="direccionCliente" value={form.direccionCliente} onChange={handleChange} />
           </div>
 
           <div className="form-column">
             <label>Teléfono</label>
-            <input name="telefono" value={form.telefono} onChange={handleChange} />
+            <input name="telefonoCliente" value={form.telefonoCliente} onChange={handleChange} />
 
             <label>Correo Electrónico</label>
-            <input name="correo" value={form.correo} onChange={handleChange} />
+            <input name="emailCliente" value={form.emailCliente} onChange={handleChange} />
           </div>
 
         </div>
 
         <div className="cliente-buttons">
           <button type="button" onClick={consultarCliente}>Consultar</button>
-          {esAdmin() && (<button type="button" onClick={crearCliente}>Crear</button>)}
+          {esAdmin() && (
+            <button type="button" onClick={crearCliente}>Crear</button>
+          )}
           <button type="button" onClick={actualizarCliente}>Actualizar</button>
           <button type="button" onClick={borrarCliente}>Borrar</button>
         </div>
@@ -109,6 +158,7 @@ function Cliente() {
         <table className="cliente-table">
           <thead>
             <tr>
+              <th>ID</th>
               <th>Cédula</th>
               <th>Nombre</th>
               <th>Dirección</th>
@@ -118,12 +168,13 @@ function Cliente() {
           </thead>
           <tbody>
             {clientes.map((c) => (
-              <tr key={c.cedula}>
-                <td>{c.cedula}</td>
-                <td>{c.nombre}</td>
-                <td>{c.direccion}</td>
-                <td>{c.telefono}</td>
-                <td>{c.correo}</td>
+              <tr key={c.idCliente} onClick={() => setForm(c)}>
+                <td>{c.idCliente}</td>
+                <td>{c.cedulaCliente}</td>
+                <td>{c.nombreCliente}</td>
+                <td>{c.direccionCliente}</td>
+                <td>{c.telefonoCliente}</td>
+                <td>{c.emailCliente}</td>
               </tr>
             ))}
           </tbody>
