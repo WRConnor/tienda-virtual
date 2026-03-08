@@ -1,10 +1,25 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-  baseURL: "http://localhost:8080", // luego aquí va la IP del gateway
-  headers: {
-    "Content-Type": "application/json",
-  },
+  baseURL: "/api"
 });
 
-export default axiosClient;
+export const api = {
+
+  login: async ({ username, password }) => {
+
+    const response = await axiosClient.post(
+      "/usuarios/login",
+      null,
+      {
+        params: {
+          usuario: username,
+          password: password
+        }
+      }
+    );
+
+    return response.data;
+  }
+
+};

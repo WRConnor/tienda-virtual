@@ -1,36 +1,65 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+/* 🌌 Wrapper general */
 .producto-wrapper {
   padding: 40px;
   min-height: 100vh;
   font-family: 'Inter', sans-serif;
   background: linear-gradient(135deg, #0f172a, #1e293b);
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
-/* Card principal */
+/* 🃏 Card principal */
 .producto-card {
   background: #ffffff;
   padding: 35px;
   border-radius: 16px;
-  margin-bottom: 40px;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.producto-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.2);
 }
 
 .producto-card h2 {
-  margin-bottom: 25px;
   font-weight: 600;
-  font-size: 22px;
+  font-size: 24px;
   color: #1e293b;
 }
 
-/* Inputs refinados */
+/* 📝 Formulario en columnas */
+.producto-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.producto-card label {
+  font-weight: 500;
+  color: #334155;
+  font-size: 14px;
+}
+
+/* Inputs modernos */
 .producto-card input {
   padding: 12px 14px;
   border-radius: 10px;
   border: 1px solid #e2e8f0;
   background: #f8fafc;
   font-size: 14px;
-  margin-right: 10px;
   transition: all 0.25s ease;
 }
 
@@ -41,7 +70,15 @@
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
 }
 
-/* Botón si lo agregas */
+/* ✨ Botones modernos */
+.producto-buttons,
+.producto-card > div input[type="file"] + button {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 10px;
+}
+
 .producto-card button {
   padding: 12px 22px;
   border-radius: 10px;
@@ -59,7 +96,7 @@
   box-shadow: 0 10px 25px rgba(37,99,235,0.3);
 }
 
-/* Error elegante */
+/* ❌ Mensajes de error */
 .error {
   color: #dc2626;
   font-size: 14px;
@@ -70,18 +107,20 @@
   border: 1px solid #fecaca;
 }
 
-/* Tabla */
+/* 🖥 Tabla productos */
 .producto-table-container {
   background: #ffffff;
   padding: 30px;
   border-radius: 16px;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+  overflow-x: auto;
 }
 
 .producto-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
+  min-width: 700px;
 }
 
 /* Encabezado */
@@ -94,6 +133,7 @@
   color: #64748b;
   padding: 14px 12px;
   border-bottom: 2px solid #e2e8f0;
+  background: #f1f5f9;
 }
 
 /* Celdas */
@@ -103,11 +143,35 @@
   color: #1e293b;
 }
 
-/* Hover elegante */
+/* Hover elegante de filas */
 .producto-table tbody tr {
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 .producto-table tbody tr:hover {
+  background: #e0f2fe;
+  transform: translateX(2px);
+}
+
+/* 📂 Inputs de archivo */
+input[type="file"] {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
   background: #f8fafc;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.25s ease;
+}
+
+input[type="file"]:hover {
+  border-color: #2563eb;
+}
+
+/* 🖼 Responsive */
+@media (max-width: 768px) {
+  .producto-form {
+    grid-template-columns: 1fr;
+  }
 }
