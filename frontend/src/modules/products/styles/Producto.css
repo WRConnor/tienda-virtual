@@ -175,3 +175,108 @@ input[type="file"]:hover {
     grid-template-columns: 1fr;
   }
 }
+
+.productos-container {
+  padding: 20px;
+}
+
+.csv-button {
+  background: #1976d2;
+  color: white;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.tabla-productos {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.tabla-productos th,
+.tabla-productos td {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  width: 600px;
+}
+
+.tabla-preview {
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
+}
+
+.tabla-preview th,
+.tabla-preview td {
+  border: 1px solid #ddd;
+  padding: 6px;
+}
+
+.modal-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.confirm-btn {
+  background: green;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+}
+
+.cancel-btn {
+  background: red;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+}
+
+.csv-modal-overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  background: rgba(0,0,0,0.6);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 9999;
+}
+
+.csv-modal{
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+
+  width: 900px;
+  max-height: 80vh;
+
+  overflow-y: auto;
+
+  box-shadow: 0px 10px 40px rgba(0,0,0,0.4);
+}

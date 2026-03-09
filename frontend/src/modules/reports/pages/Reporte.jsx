@@ -7,57 +7,48 @@ import "../../../css/global.css";
 
 function Reporte() {
 
-  const [vista, setVista] = useState("dashboard");
-
-  const renderVista = () => {
-    switch (vista) {
-      case "usuarios":
-        return <ListadoUsuarios />;
-      case "clientes":
-        return <ListadoClientes />;
-      case "ventas":
-        return <VentasPorCliente />;
-      default:
-        return <ConsultasDashboard />;
+  const vistas = {
+    dashboard: {
+      nombre: "Dashboard",
+      componente: <ConsultasDashboard />
+    },
+    usuarios: {
+      nombre: "Usuarios",
+      componente: <ListadoUsuarios />
+    },
+    clientes: {
+      nombre: "Clientes",
+      componente: <ListadoClientes />
+    },
+    ventas: {
+      nombre: "Ventas por Cliente",
+      componente: <VentasPorCliente />
     }
   };
 
+  const [vista, setVista] = useState("dashboard");
+
   return (
-    <div>
+    <div className="reporte-container">
 
-      <h1>Consultas y reportes</h1>
+      <h1>Consultas y Reportes</h1>
+
+      {/* MENU */}
       <div className="menu-reportes">
-        <button
-          className={`btn-menu ${vista === "dashboard" ? "activo" : ""}`}
-          onClick={() => setVista("dashboard")}
-        >
-          Dashboard
-        </button>
-
-        <button
-          className={`btn-menu ${vista === "usuarios" ? "activo" : ""}`}
-          onClick={() => setVista("usuarios")}
-        >
-          Usuarios
-        </button>
-
-        <button
-          className={`btn-menu ${vista === "clientes" ? "activo" : ""}`}
-          onClick={() => setVista("clientes")}
-        >
-          Clientes
-        </button>
-
-        <button
-          className={`btn-menu ${vista === "ventas" ? "activo" : ""}`}
-          onClick={() => setVista("ventas")}
-        >
-          Ventas por Cliente
-        </button>
+        {Object.entries(vistas).map(([key, value]) => (
+          <button
+            key={key}
+            className={`btn-menu ${vista === key ? "activo" : ""}`}
+            onClick={() => setVista(key)}
+          >
+            {value.nombre}
+          </button>
+        ))}
       </div>
 
+      {/* CONTENIDO */}
       <div className="contenido-reporte">
-        {renderVista()}
+        {vistas[vista].componente}
       </div>
 
     </div>

@@ -76,5 +76,21 @@ export const api = {
   borrarProducto: async (id) => {
     const response = await axiosClient.delete(`/productos/eliminar/${id}`);
     return response.data;
-  }
+  },
+
+  //reportes
+  obtenerUsuarios: async () => {
+    const response = await axiosClient.get("/usuarios/mostrartodo");
+    return response.data?.data || response.data?.usuarios || response.data || [];
+  },
+
+  obtenerClientes: async () => {
+    const response = await axiosClient.get("/clientes/mostrartodo");
+    return response.data?.data || response.data?.clientes || response.data || [];
+    },
+
+  obtenerVentas: async () => {
+    const res = await axiosClient.get("/ventas/mostrartodo");
+    return res.data;
+  },
 };
