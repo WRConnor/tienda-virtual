@@ -93,4 +93,45 @@ export const api = {
     const res = await axiosClient.get("/ventas/mostrartodo");
     return res.data;
   },
+
+  // =======================
+// VENTAS
+// =======================
+
+crearVenta: async (venta) => {
+  const res = await axiosClient.post("/ventas/crear", venta);
+  return res.data;
+},
+
+obtenerVentas: async () => {
+  const res = await axiosClient.get("/ventas/mostrartodo");
+  return res.data;
+},
+
+// =======================
+// BUSCAR CLIENTE
+// =======================
+
+obtenerCliente: async (cedula) => {
+  const res = await axiosClient.post(`/ventas/clientes/${cedula}`);
+  return res.data;
+},
+
+// =======================
+// BUSCAR PRODUCTO
+// =======================
+
+obtenerProducto: async (codigo) => {
+  const res = await axiosClient.get(`/ventas/buscarPorCodigo/${codigo}`);
+  return res.data;
+},
+
+// =======================
+// REPORTE
+// =======================
+
+reporteVentasCliente: async () => {
+  const res = await axiosClient.get("/ventas/reporte-cliente");
+  return res.data;
+},
 };
