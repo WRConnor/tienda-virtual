@@ -42,28 +42,34 @@ public class ClienteService implements CRUDOperations<Cliente> {
 
 	@Override
 	public int actualizar(Long id, Cliente nuevaData) {
+
 		Optional<Cliente> found = clienteRepo.findById(id);
-		Optional<Cliente> newFound = clienteRepo.findByCedulaCliente(nuevaData.getCedulaCliente());
-		
-		if (found.isPresent() && !newFound.isPresent()) {
-			Cliente temp = found.get();
-			temp.setCedulaCliente(nuevaData.getCedulaCliente());
-			temp.setNombreCliente(nuevaData.getNombreCliente());
-			temp.setDireccionCliente(nuevaData.getDireccionCliente());
-			temp.setEmailCliente(nuevaData.getEmailCliente());
-			temp.setTelefonoCliente(nuevaData.getTelefonoCliente());
-			clienteRepo.save(temp);
-			return 0;
-		}
-		if (found.isPresent() && newFound.isPresent()) {
-			return 1;
-		}
+
 		if (!found.isPresent()) {
-			return 2;
-		} else {
-			return 3;
+			return 2; 
 		}
+
+		Optional<Cliente> cedulaExistente =
+				clienteRepo.findByCedulaCliente(nuevaData.getCedulaCliente());
+
+
+		if (cedulaExistente.isPresent() &&
+			!cedulaExistente.get().getIdCliente().equals(id)) {
+			return 1; 
+		}
+
+		Cliente temp = found.get();
+		temp.setCedulaCliente(nuevaData.getCedulaCliente());
+		temp.setNombreCliente(nuevaData.getNombreCliente());
+		temp.setDireccionCliente(nuevaData.getDireccionCliente());
+		temp.setEmailCliente(nuevaData.getEmailCliente());
+		temp.setTelefonoCliente(nuevaData.getTelefonoCliente());
+
+		clienteRepo.save(temp);
+
+		return 0;
 	}
+
 
 	@Override
 	public Optional<Cliente> buscarPorId(Long id) {

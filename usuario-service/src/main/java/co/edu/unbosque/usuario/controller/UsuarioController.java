@@ -51,11 +51,11 @@ public class UsuarioController {
 		int status = usuarioServ.actualizar(id, o);
 
 		if (status == 0) {
-			return new ResponseEntity<>("Usuario actualizado con exito", HttpStatus.ACCEPTED);
+			return new ResponseEntity<>("Usuario actualizado con exito", HttpStatus.OK);
 		} else if (status == 1) {
-			return new ResponseEntity<>("Usuario no encontrado ", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Cedula ya registrada", HttpStatus.BAD_REQUEST);
 		} else {
-			return new ResponseEntity<>("Error al actualizar", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Usuario no encontrado", HttpStatus.NOT_FOUND);
 		}
 	}
 	

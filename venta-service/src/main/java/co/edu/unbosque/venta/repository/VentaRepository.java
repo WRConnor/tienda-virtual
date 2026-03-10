@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import co.edu.unbosque.venta.model.Venta;
-import java.util.List;
 
 
 public interface VentaRepository extends JpaRepository<Venta, Long> {

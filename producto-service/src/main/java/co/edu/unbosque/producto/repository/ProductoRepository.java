@@ -8,6 +8,6 @@ import co.edu.unbosque.producto.model.Producto;
 
 public interface ProductoRepository extends JpaRepository<Producto, Long> {
 	
-	public Optional<Producto> findfindByNitProveedor(Long nit);
+	public Optional<Producto> findByNitProveedor(Long nit);
 
 }

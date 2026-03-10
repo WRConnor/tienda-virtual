@@ -43,7 +43,7 @@ public class ProductoService implements CRUDOperations<Producto> {
 	@Override
 	public int actualizar(Long id, Producto nuevaData) {
 		Optional<Producto> found = productoRepo.findById(id);
-		Optional<Producto> newFound = productoRepo.findfindByNitProveedor(nuevaData.getNitProveedor());
+		Optional<Producto> newFound = productoRepo.findByNitProveedor(nuevaData.getNitProveedor());
 		
 		if (found.isPresent() && !newFound.isPresent()) {
 			Producto temp = found.get();
@@ -71,7 +71,7 @@ public class ProductoService implements CRUDOperations<Producto> {
 	}
 	
 	public boolean findTitleAlreadyTaken(Producto newProducto) {
-		Optional<Producto> found = productoRepo.findfindByNitProveedor(newProducto.getNitProveedor());
+		Optional<Producto> found = productoRepo.findByNitProveedor(newProducto.getNitProveedor());
 		if (found.isPresent()) {
 			return true;
 		} else {
