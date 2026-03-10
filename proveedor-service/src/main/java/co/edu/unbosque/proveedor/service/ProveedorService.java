@@ -11,15 +11,15 @@ import co.edu.unbosque.proveedor.repository.ProveedorRepository;
 
 @Service
 public class ProveedorService implements CRUDOperations<Proveedor> {
-	
+
 	@Autowired
 	ProveedorRepository proveedorRepo;
 
 	@Override
 	public int crear(Proveedor o) {
-		if(findTitleAlreadyTaken(o)) {
+		if (findTitleAlreadyTaken(o)) {
 			return 1;
-		}else {
+		} else {
 			proveedorRepo.save(o);
 			return 0;
 		}
@@ -27,10 +27,10 @@ public class ProveedorService implements CRUDOperations<Proveedor> {
 
 	@Override
 	public int eliminar(Long in) {
-		if(proveedorRepo.existsById(in)) {
+		if (proveedorRepo.existsById(in)) {
 			proveedorRepo.deleteById(in);
 			return 0;
-		}else {
+		} else {
 			return 1;
 		}
 	}
@@ -44,7 +44,7 @@ public class ProveedorService implements CRUDOperations<Proveedor> {
 	public int actualizar(Long id, Proveedor nuevaData) {
 		Optional<Proveedor> found = proveedorRepo.findById(id);
 		Optional<Proveedor> newFound = proveedorRepo.findByNitProveedor(nuevaData.getNitProveedor());
-		
+
 		if (found.isPresent() && !newFound.isPresent()) {
 			Proveedor temp = found.get();
 			temp.setNitProveedor(nuevaData.getNitProveedor());
@@ -68,6 +68,11 @@ public class ProveedorService implements CRUDOperations<Proveedor> {
 	@Override
 	public Optional<Proveedor> buscarPorId(Long id) {
 		return proveedorRepo.findById(id);
+	}
+
+	@Override
+	public Optional<Proveedor> buscarPorNIT(Long nit) {
+		return proveedorRepo.findByNitProveedor(nit);
 	}
 	
 	public boolean findTitleAlreadyTaken(Proveedor newProveedor) {
