@@ -12,7 +12,8 @@ import {
   YAxis,
   Tooltip,
   CartesianGrid,
-  ResponsiveContainer
+  ResponsiveContainer,
+  Cell
 } from "recharts";
 
 function VentasPorCliente() {
@@ -21,12 +22,22 @@ function VentasPorCliente() {
   const [datosAgrupados, setDatosAgrupados] = useState([]);
   const [busqueda, setBusqueda] = useState("");
 
+  const colores = [
+    "#4e73df",
+    "#1cc88a",
+    "#36b9cc",
+    "#f6c23e",
+    "#e74a3b",
+    "#858796"
+  ];
+
   // ===== CARGAR VENTAS =====
   const cargarVentas = async () => {
 
     try {
 
       const data = await api.obtenerVentas();
+      console.log(data);
       const ventasArray = Array.isArray(data) ? data : [];
 
       setVentas(ventasArray);
@@ -50,7 +61,7 @@ function VentasPorCliente() {
 
     ventas.forEach(v => {
 
-      const cliente = v.nombreCliente || "Sin nombre";
+      const cliente = v.nombreCliente || `Cliente ${v.cedulaCliente}`;
       const total = Number(v.totalVenta) || 0;
 
       if (!mapa[cliente]) {
@@ -273,7 +284,14 @@ function VentasPorCliente() {
               }
             />
 
-            <Bar dataKey="total" />
+            <Bar dataKey="total">
+              {datosFiltrados.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={colores[index % colores.length]}
+                />
+              ))}
+            </Bar>
 
           </BarChart>
 

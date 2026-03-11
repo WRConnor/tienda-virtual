@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { esAdmin } from "../../auth/context/auth";
+import { useNavigate } from "react-router-dom";
 import { api } from "../../../api/api";
 import "../styles/Cliente.css";
 
 function Cliente() {
-
+  const navigate = useNavigate();
   const [clientes, setClientes] = useState([]);
 
   const [form, setForm] = useState({
@@ -16,26 +16,33 @@ function Cliente() {
     emailCliente: ""
   });
 
-  // =========================
-  // CARGAR CLIENTES
-  // =========================
+  const token = localStorage.getItem("token");
+  const rol = localStorage.getItem("rol");
+
+  // Solo ADMIN puede acceder
   useEffect(() => {
+    if (rol !== "ADMIN") {
+      alert("No tienes permiso para acceder a Clientes");
+      navigate("/login"); // Redirige al login si no es admin
+      return;
+    }
     cargarClientes();
   }, []);
 
   const cargarClientes = async () => {
     try {
-      const data = await api.getClientes();
-      console.log(data);
-      setClientes(data);
+      const data = await api.getClientes(token); // asegurarse de pasar token
+      setClientes(Array.isArray(data) ? data : []);
     } catch (error) {
-      alert(error.message);
+      if (error.response?.status === 403) {
+        alert("No tienes permiso para ver clientes");
+      } else {
+        alert("Error cargando clientes: " + error.message);
+      }
+      setClientes([]);
     }
   };
 
-  // =========================
-  // HANDLE INPUT
-  // =========================
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -51,85 +58,61 @@ function Cliente() {
     });
   };
 
-  // =========================
-  // CREAR
-  // =========================
   const crearCliente = async () => {
+    if (rol !== "ADMIN") return;
     try {
-      await api.crearCliente(form);
+      await api.crearCliente(form, token);
       await cargarClientes();
       limpiar();
+      alert("Cliente creado con éxito");
     } catch (error) {
-      alert(error.message);
+      alert("Error al crear cliente: " + error.message);
     }
   };
 
-  // =========================
-  // CONSULTAR (FILTRA LOCALMENTE POR CÉDULA)
-  // =========================
   const consultarCliente = () => {
     const cliente = clientes.find(
-      c => c.cedulaCliente === Number(form.cedulaCliente)
+      (c) => c.cedulaCliente.toString() === form.cedulaCliente.toString()
     );
-
-    if (cliente) {
-      setForm(cliente);
-    } else {
-      alert("Cliente no encontrado");
-    }
+    if (cliente) setForm(cliente);
+    else alert("Cliente no encontrado");
   };
 
-  // =========================
-  // ACTUALIZAR (POR ID)
-  // =========================
   const actualizarCliente = async () => {
-    if (!form.idCliente) {
-      alert("Primero consulte el cliente");
-      return;
-    }
-
+    if (!form.idCliente) return alert("Primero consulte el cliente");
     try {
-      await api.actualizarCliente(form.idCliente, form);
+      await api.actualizarCliente(form.idCliente, form, token);
       await cargarClientes();
       limpiar();
+      alert("Cliente actualizado con éxito");
     } catch (error) {
-      alert(error.message);
+      alert("Error al actualizar cliente: " + error.message);
     }
   };
 
-  // =========================
-  // BORRAR (POR ID)
-  // =========================
   const borrarCliente = async () => {
-    if (!form.idCliente) {
-      alert("Primero consulte el cliente");
-      return;
-    }
-
+    if (!form.idCliente) return alert("Primero consulte el cliente");
     try {
-      await api.borrarCliente(form.idCliente);
+      await api.borrarCliente(form.idCliente, token);
       await cargarClientes();
       limpiar();
+      alert("Cliente eliminado con éxito");
     } catch (error) {
-      alert(error.message);
+      alert("Error al eliminar cliente: " + error.message);
     }
   };
 
   return (
     <div className="cliente-wrapper">
-
       <div className="cliente-card">
         <h2>Gestión de Clientes</h2>
 
         <div className="cliente-form">
-
           <div className="form-column">
             <label>Cédula</label>
             <input name="cedulaCliente" value={form.cedulaCliente} onChange={handleChange} />
-
             <label>Nombre Completo</label>
             <input name="nombreCliente" value={form.nombreCliente} onChange={handleChange} />
-
             <label>Dirección</label>
             <input name="direccionCliente" value={form.direccionCliente} onChange={handleChange} />
           </div>
@@ -137,18 +120,14 @@ function Cliente() {
           <div className="form-column">
             <label>Teléfono</label>
             <input name="telefonoCliente" value={form.telefonoCliente} onChange={handleChange} />
-
             <label>Correo Electrónico</label>
             <input name="emailCliente" value={form.emailCliente} onChange={handleChange} />
           </div>
-
         </div>
 
         <div className="cliente-buttons">
           <button type="button" onClick={consultarCliente}>Consultar</button>
-          {esAdmin() && (
-            <button type="button" onClick={crearCliente}>Crear</button>
-          )}
+          {rol === "ADMIN" && <button type="button" onClick={crearCliente}>Crear</button>}
           <button type="button" onClick={actualizarCliente}>Actualizar</button>
           <button type="button" onClick={borrarCliente}>Borrar</button>
         </div>
@@ -167,20 +146,25 @@ function Cliente() {
             </tr>
           </thead>
           <tbody>
-            {clientes.map((c) => (
-              <tr key={c.idCliente} onClick={() => setForm(c)}>
-                <td>{c.idCliente}</td>
-                <td>{c.cedulaCliente}</td>
-                <td>{c.nombreCliente}</td>
-                <td>{c.direccionCliente}</td>
-                <td>{c.telefonoCliente}</td>
-                <td>{c.emailCliente}</td>
+            {clientes.length === 0 ? (
+              <tr>
+                <td colSpan="6">No hay clientes</td>
               </tr>
-            ))}
+            ) : (
+              clientes.map((c) => (
+                <tr key={c.idCliente} onClick={() => setForm(c)}>
+                  <td>{c.idCliente}</td>
+                  <td>{c.cedulaCliente}</td>
+                  <td>{c.nombreCliente}</td>
+                  <td>{c.direccionCliente}</td>
+                  <td>{c.telefonoCliente}</td>
+                  <td>{c.emailCliente}</td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
-
     </div>
   );
 }

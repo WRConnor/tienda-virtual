@@ -42,6 +42,24 @@ export const api = {
     return response.data;
   },
 
+  //clientes
+  getClientes: async () => {
+    const response = await axiosClient.get("/clientes/mostrartodo");
+    return response.data;
+  },
+  crearCliente: async (data) => {
+    const response = await axiosClient.post("/clientes/crear", data); 
+    return response.data;
+  },
+  actualizarCliente: async (id, data) => {
+    const response = await axiosClient.put(`/clientes/actualizar/${id}`, data);   
+    return response.data;
+  },  
+  borrarCliente: async (id) => {
+    const response = await axiosClient.delete(`/clientes/eliminar/${id}`);    
+    return response.data;
+  },
+
   // Proveedores
   getProveedores: async () => {
     const response = await axiosClient.get("/proveedores/mostrartodo");
@@ -94,44 +112,47 @@ export const api = {
     return res.data;
   },
 
-  // =======================
+};
+
+// =======================
 // VENTAS
 // =======================
 
-crearVenta: async (venta) => {
-  const res = await axiosClient.post("/ventas/crear", venta);
-  return res.data;
-},
+export const apiVentas = {
+  // Crear una nueva venta
+  crearVenta: async (venta) => {
+    const res = await axiosClient.post("/ventas/crear", venta);
+    return res.data;
+  },
 
-obtenerVentas: async () => {
-  const res = await axiosClient.get("/ventas/mostrartodo");
-  return res.data;
-},
+  // Obtener todas las ventas
+  obtenerVentas: async () => {
+    const res = await axiosClient.get("/ventas/mostrartodo");
+    return res.data;
+  },
 
-// =======================
-// BUSCAR CLIENTE
-// =======================
+  // =======================
+  // BUSCAR CLIENTE
+  // =======================
+  obtenerCliente: async (cedula) => {
+    // Cambiado a GET porque el backend solo acepta GET
+    const res = await axiosClient.get(`/ventas/clientes/${cedula}`);
+    return res.data;
+  },
 
-obtenerCliente: async (cedula) => {
-  const res = await axiosClient.post(`/ventas/clientes/${cedula}`);
-  return res.data;
-},
+  // =======================
+  // BUSCAR PRODUCTO
+  // =======================
+  obtenerProducto: async (codigo) => {
+    const res = await axiosClient.get(`/ventas/buscarPorCodigo/${codigo}`);
+    return res.data;
+  },
 
-// =======================
-// BUSCAR PRODUCTO
-// =======================
-
-obtenerProducto: async (codigo) => {
-  const res = await axiosClient.get(`/ventas/buscarPorCodigo/${codigo}`);
-  return res.data;
-},
-
-// =======================
-// REPORTE
-// =======================
-
-reporteVentasCliente: async () => {
-  const res = await axiosClient.get("/ventas/reporte-cliente");
-  return res.data;
-},
+  // =======================
+  // REPORTE DE VENTAS POR CLIENTE
+  // =======================
+  reporteVentasCliente: async () => {
+    const res = await axiosClient.get("/ventas/reporte-cliente");
+    return res.data;
+  },
 };

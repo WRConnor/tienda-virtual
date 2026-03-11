@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { api } from "../../../api/api";
 import "../styles/Usuario.css";
 
 const safeString = (value) => (value == null ? "" : value);
 
 function Usuario() {
-
+  const navigate = useNavigate();
   const [usuarios, setUsuarios] = useState([]);
-
   const [form, setForm] = useState({
     idUsuario: null,
     cedula: "",
@@ -17,58 +17,39 @@ function Usuario() {
     password: "",
     rol: "USER"
   });
+  const [accesoPermitido, setAccesoPermitido] = useState(false);
 
-  // 🔐 obtener rol y token del usuario logueado
   const rol = localStorage.getItem("rol");
   const token = localStorage.getItem("token");
-  const esAdmin = rol === "ADMIN";
 
+  const tieneRol = (rolesPermitidos) => rolesPermitidos.includes(rol);
+
+  // Controlar acceso y cargar usuarios solo si es ADMIN o GERENTE
   useEffect(() => {
+    if (!tieneRol(["ADMIN", "GERENTE"])) {
+      setAccesoPermitido(false); // bloquear acceso
+      return;
+    }
+    setAccesoPermitido(true);
     cargarUsuarios();
   }, []);
 
-  // 💻 Cargar usuarios desde API
   const cargarUsuarios = async () => {
     try {
-      const data = await api.getUsuarios(token); // pasar token al api
-      setUsuarios(data && data.length ? data : []);
+      const data = await api.getUsuarios(token);
+      setUsuarios(Array.isArray(data) ? data : []);
     } catch (err) {
-      console.error(err);
-      alert("Error al cargar usuarios");
+      alert(err.response?.status === 403 ? "No tienes permiso para ver estos datos" : "Error al cargar usuarios");
       setUsuarios([]);
     }
   };
 
-  // 🔄 Manejo de formulario
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value
-    });
-  };
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const limpiar = () => setForm({ idUsuario: null, cedula: "", nombre: "", correo: "", usuario: "", password: "", rol: "USER" });
 
-  const limpiar = () => {
-    setForm({
-      idUsuario: null,
-      cedula: "",
-      nombre: "",
-      correo: "",
-      usuario: "",
-      password: "",
-      rol: "USER"
-    });
-  };
-
-  // ➕ Crear usuario
   const crearUsuario = async () => {
-    if (!esAdmin) {
-      alert("No tienes permisos para crear usuarios");
-      return;
-    }
-    if (!form.cedula || !form.nombre || !form.correo || !form.usuario || !form.password) {
-      alert("Faltan datos");
-      return;
-    }
+    if (!tieneRol(["ADMIN"])) return alert("No tienes permisos para crear usuarios");
+    if (!form.cedula || !form.nombre || !form.correo || !form.usuario || !form.password) return alert("Faltan datos");
 
     try {
       await api.crearUsuario({
@@ -79,7 +60,6 @@ function Usuario() {
         password: form.password,
         rol: form.rol
       }, token);
-
       await cargarUsuarios();
       limpiar();
       alert("Usuario creado con éxito");
@@ -89,16 +69,9 @@ function Usuario() {
     }
   };
 
-  // ✏️ Actualizar usuario
   const actualizarUsuario = async () => {
-    if (!esAdmin) {
-      alert("No tienes permisos para actualizar usuarios");
-      return;
-    }
-    if (!form.idUsuario) {
-      alert("Primero selecciona un usuario de la tabla");
-      return;
-    }
+    if (!tieneRol(["ADMIN", "GERENTE"])) return alert("No tienes permisos para actualizar usuarios");
+    if (!form.idUsuario) return alert("Primero selecciona un usuario de la tabla");
 
     try {
       await api.actualizarUsuario(form.idUsuario, {
@@ -109,7 +82,6 @@ function Usuario() {
         password: form.password,
         rol: form.rol
       }, token);
-
       await cargarUsuarios();
       limpiar();
       alert("Usuario actualizado con éxito");
@@ -119,25 +91,12 @@ function Usuario() {
     }
   };
 
-  // ❌ Borrar usuario
   const borrarUsuario = async () => {
-    if (!esAdmin) {
-      alert("No tienes permisos para borrar usuarios");
-      return;
-    }
-    if (!form.cedula) {
-      alert("Ingresa la cédula del usuario");
-      return;
-    }
+    if (!tieneRol(["ADMIN"])) return alert("No tienes permisos para borrar usuarios");
+    if (!form.cedula) return alert("Ingresa la cédula del usuario");
 
-    const usuarioEncontrado = usuarios.find(
-      (u) => String(u.cedulaUsuario) === String(form.cedula)
-    );
-
-    if (!usuarioEncontrado) {
-      alert("Usuario no encontrado");
-      return;
-    }
+    const usuarioEncontrado = usuarios.find(u => String(u.cedulaUsuario) === String(form.cedula));
+    if (!usuarioEncontrado) return alert("Usuario no encontrado");
 
     try {
       await api.borrarUsuario(usuarioEncontrado.idUsuario, token);
@@ -150,40 +109,33 @@ function Usuario() {
     }
   };
 
-  // 🔹 Seleccionar usuario de la tabla
-  const seleccionarUsuario = (u) => {
-    setForm({
-      idUsuario: u.idUsuario,
-      cedula: safeString(u.cedulaUsuario),
-      nombre: safeString(u.nombreUsuario),
-      correo: safeString(u.emailUsuario),
-      usuario: safeString(u.usuario),
-      password: safeString(u.password),
-      rol: u.rol || "USER"
-    });
+  const seleccionarUsuario = (u) => setForm({
+    idUsuario: u.idUsuario,
+    cedula: safeString(u.cedulaUsuario),
+    nombre: safeString(u.nombreUsuario),
+    correo: safeString(u.emailUsuario),
+    usuario: safeString(u.usuario),
+    password: safeString(u.password),
+    rol: u.rol || "USER"
+  });
+
+  const consultarUsuario = () => {
+    const u = usuarios.find(u => String(u.cedulaUsuario) === String(form.cedula));
+    if (u) seleccionarUsuario(u);
+    else alert("Usuario no encontrado");
   };
 
-  // 🔍 Consultar usuario por cédula
-  const consultarUsuario = () => {
-    const u = usuarios.find(
-      (u) => String(u.cedulaUsuario) === String(form.cedula)
-    );
-    if (u) {
-      seleccionarUsuario(u);
-    } else {
-      alert("Usuario no encontrado");
-    }
-  };
+  // 🔹 Renderizado condicional según acceso
+  if (!accesoPermitido) {
+    return <div className="usuario-wrapper"><h2>No tienes permiso para ver esta sección</h2></div>;
+  }
 
   return (
     <div className="usuario-wrapper">
-
       <div className="usuario-card">
-
         <h2>Gestión de Usuarios</h2>
 
         <div className="usuario-form">
-
           <div className="form-column">
             <label>Cédula</label>
             <input name="cedula" value={form.cedula} onChange={handleChange} />
@@ -202,33 +154,33 @@ function Usuario() {
             <label>Contraseña</label>
             <input type="password" name="password" value={form.password} onChange={handleChange} />
 
-            <label>Rol</label>
-            <select name="rol" value={form.rol} onChange={handleChange}>
-              <option value="USER">USER</option>
-              <option value="ADMIN">ADMIN</option>
-            </select>
+            {tieneRol(["ADMIN"]) && (
+              <>
+                <label>Rol</label>
+                <select name="rol" value={form.rol} onChange={handleChange}>
+                  <option value="ADMIN">ADMIN</option>
+                  <option value="CLIENTE">CLIENTE</option>
+                  <option value="CAJERO">CAJERO</option>
+                  <option value="GERENTE">GERENTE</option>
+                  <option value="INVENTARIO">INVENTARIO</option>
+                </select>
+              </>
+            )}
           </div>
-
         </div>
 
         <div className="usuario-buttons">
           <button onClick={consultarUsuario}>Consultar</button>
-
-          {esAdmin && (
-            <>
-              <button onClick={crearUsuario}>Crear</button>
-              <button onClick={actualizarUsuario}>Actualizar</button>
-              <button onClick={borrarUsuario}>Borrar</button>
-            </>
-          )}
-
+          {tieneRol(["ADMIN"]) && <>
+            <button onClick={crearUsuario}>Crear</button>
+            <button onClick={borrarUsuario}>Borrar</button>
+          </>}
+          {tieneRol(["ADMIN", "GERENTE"]) && <button onClick={actualizarUsuario}>Actualizar</button>}
           <button onClick={limpiar}>Limpiar</button>
         </div>
-
       </div>
 
       <div className="usuario-table-container">
-
         <table className="usuario-table">
           <thead>
             <tr>
@@ -239,12 +191,9 @@ function Usuario() {
               <th>Usuario</th>
             </tr>
           </thead>
-
           <tbody>
             {usuarios.length === 0 ? (
-              <tr>
-                <td colSpan="5">No hay usuarios registrados</td>
-              </tr>
+              <tr><td colSpan="5">No hay usuarios registrados</td></tr>
             ) : (
               usuarios.map((u) => (
                 <tr key={u.idUsuario} onClick={() => seleccionarUsuario(u)}>
@@ -258,9 +207,7 @@ function Usuario() {
             )}
           </tbody>
         </table>
-
       </div>
-
     </div>
   );
 }

@@ -1,358 +1,381 @@
-import { useState } from "react";
-import { api } from "../../../api/api";
+import { useState, useRef } from "react";
+import { useAuth } from "../../auth/context/authContext"; // 🔹 importamos el contexto
+import { apiVentas } from "../../../api/api";
+import jsPDF from "jspdf";
 import "../styles/Venta.css";
 
 function Venta() {
+  const inputProductoRef = useRef(null);
+  const inputCantidadRef = useRef(null);
 
   const [cedulaCliente, setCedulaCliente] = useState("");
   const [clienteEncontrado, setClienteEncontrado] = useState(null);
-
   const [codigoProducto, setCodigoProducto] = useState("");
   const [productoActual, setProductoActual] = useState(null);
   const [cantidad, setCantidad] = useState("");
-
   const [detalle, setDetalle] = useState([]);
-  const [consecutivo, setConsecutivo] = useState(1);
+  const [ventaConfirmada, setVentaConfirmada] = useState(null);
+  const [mostrarFactura, setMostrarFactura] = useState(false);
 
-  // =============================
-  // BUSCAR CLIENTE
-  // =============================
+  // 🔹 obtenemos el usuario logueado del contexto
+  const { user } = useAuth();
+
+  const cedulaUsuario = user?.cedula;
+  const usuarioLogueado = user?.usuario;
+  console.log(user);
+
+  const formatoCOP = (valor) => {
+    return new Intl.NumberFormat("es-CO", {
+      style: "currency",
+      currency: "COP",
+      minimumFractionDigits: 0,
+    }).format(valor || 0);
+  };
+
+  const vaciarVenta = () => {
+    setDetalle([]);
+  };
+
+  const nuevaVenta = () => {
+    setDetalle([]);
+    setCedulaCliente("");
+    setClienteEncontrado(null);
+    setCodigoProducto("");
+    setProductoActual(null);
+    setCantidad("");
+  };
+
+  const eliminarProducto = (index) => {
+    const nuevoDetalle = [...detalle];
+    nuevoDetalle.splice(index, 1);
+    setDetalle(nuevoDetalle);
+  };
+
+  const editarCantidad = (index, nuevaCantidad) => {
+    const nuevoDetalle = [...detalle];
+    const producto = nuevoDetalle[index];
+
+    producto.cantidad = Number(nuevaCantidad);
+    producto.total = producto.cantidad * producto.valorUnitario;
+
+    setDetalle(nuevoDetalle);
+  };
+
+  // =========================
+  // FUNCIONES DE VENTA
+  // =========================
   const buscarCliente = async () => {
-
-    if (!cedulaCliente) return;
-
     try {
-
-      const cliente = await api.obtenerCliente(cedulaCliente);
-
-      console.log("Cliente recibido:", cliente); // 👈 IMPORTANTE
-
+      const cliente = await apiVentas.obtenerCliente(cedulaCliente);
       setClienteEncontrado(cliente);
-
+      inputProductoRef.current.focus();
     } catch (error) {
-
-      console.error(error);
       alert("Cliente no encontrado");
-
     }
-
   };
 
-  // =============================
-  // BUSCAR PRODUCTO
-  // =============================
   const buscarProducto = async () => {
-
-    if (!codigoProducto) return;
-
     try {
-
-      const producto = await api.obtenerProducto(codigoProducto);
-
-      if (!producto) {
-        alert("Producto no encontrado");
-        setProductoActual(null);
-        return;
-      }
-
+      const producto = await apiVentas.obtenerProducto(codigoProducto);
       setProductoActual(producto);
-
+      inputCantidadRef.current.focus();
     } catch (error) {
-
-      console.error("Error consultando producto:", error);
-
-      if (error.response?.status === 500) {
-        alert("Producto no encontrado");
-      } else {
-        alert("Error consultando producto");
-      }
-
-      setProductoActual(null);
-
+      alert("Producto no encontrado");
     }
-
   };
 
-  // =============================
-  // AGREGAR PRODUCTO
-  // =============================
   const agregarProducto = () => {
+    if (!productoActual || !cantidad) return alert("Seleccione producto y cantidad");
 
-    if (!productoActual || !cantidad) {
-      alert("Seleccione producto y cantidad");
-      return;
-    }
-
-    const totalProducto =
-    productoActual.precioVenta * cantidad;
-
-    const nuevoDetalle = {
-
-      codigo: productoActual.codigoProducto,
-      nombre: productoActual.nombreProducto,
-      cantidad: Number(cantidad),
-      valorUnitario: productoActual.precioVenta,
-      total: totalProducto,
-      iva: productoActual.iva
-
-    };
-
-    setDetalle([...detalle, nuevoDetalle]);
-
+    const total = Number(productoActual.precioVenta) * Number(cantidad);
+    setDetalle([
+      ...detalle,
+      {
+        codigo: productoActual.codigoProducto,
+        nombre: productoActual.nombreProducto,
+        cantidad: Number(cantidad),
+        valorUnitario: Number(productoActual.precioVenta),
+        iva: productoActual.ivaCompra,
+        total,
+      },
+    ]);
     setCodigoProducto("");
     setCantidad("");
     setProductoActual(null);
-
+    inputProductoRef.current.focus();
   };
+  
 
-  // =============================
-  // CONFIRMAR VENTA
-  // =============================
   const totalizar = async () => {
+    // 🔹 usamos el contexto en lugar de localStorage
+    if (!cedulaUsuario || !usuarioLogueado)
+      return alert("No se pudo obtener la cédula del usuario logueado");
 
-    if (!clienteEncontrado) {
-      alert("Debe seleccionar un cliente");
-      return;
-    }
+    if (!clienteEncontrado) return alert("Debe seleccionar un cliente");
+    if (detalle.length === 0) return alert("Debe agregar productos");
 
-    if (detalle.length === 0) {
-      alert("Debe agregar productos");
-      return;
-    }
-
-    const subtotal = detalle.reduce(
-      (acc, item) => acc + item.total,
-      0
-    );
-
-    const totalIVA = detalle.reduce(
-      (acc, item) => acc + (item.total * item.iva / 100),
-      0
-    );
-
-    const totalConIVA = subtotal + totalIVA;
+    const subtotal = detalle.reduce((acc, item) => acc + item.total, 0);
+    const totalIVA = detalle.reduce((acc, item) => acc + item.total * item.iva / 100, 0);
+    const totalVenta = subtotal + totalIVA;
 
     const venta = {
-
-      cedulaCliente: cedulaCliente,
-      cedulaUsuario: "admin",
-      subtotal: subtotal,
-      totalIVA: totalIVA,
-      totalVenta: totalConIVA
-
+      cedulaCliente: Number(cedulaCliente),
+      cedulaUsuario: Number(cedulaUsuario),
+      valorVenta: subtotal,
+      ivaVenta: totalIVA,
+      totalVenta,
+      detalles: detalle.map((d) => ({
+        codigoProducto: d.codigo,
+        cantidadProducto: d.cantidad,
+      })),
     };
 
+    console.log("VENTA ENVIADA:", venta);
+
     try {
-
-      const ventaCreada = await api.crearVenta(venta);
-
-      const codigoVenta =
-        ventaCreada?.codigoVenta || consecutivo;
-
-      for (const item of detalle) {
-
-        const detalleVenta = {
-
-          codigoVenta: codigoVenta,
-          codigoProducto: item.codigo,
-          cantidad: item.cantidad,
-          valorUnitario: item.valorUnitario,
-          total: item.total
-
-        };
-
-        await api.crearDetalleVenta(detalleVenta);
-
-      }
-
-      alert("Venta registrada correctamente");
-
+      const ventaGuardada = await apiVentas.crearVenta(venta);
+      setVentaConfirmada({
+        ...ventaGuardada,   // 🔹 usa directamente la venta devuelta
+        fecha: new Date().toLocaleString(),
+        cliente: clienteEncontrado,
+        usuario: usuarioLogueado,
+        productos: detalle,
+        subtotal,
+        iva: totalIVA,
+        total: totalVenta
+      });
+      setMostrarFactura(true);
       setDetalle([]);
       setCedulaCliente("");
-      setClienteEncontrado(null);
-      setConsecutivo(consecutivo + 1);
-
     } catch (error) {
-
-      console.error(error);
       alert("Error registrando venta");
-
+      console.error(error);
     }
-
   };
 
-  const subtotal = detalle.reduce((acc, item) => acc + item.total, 0);
+  const generarFactura = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(22);
+    doc.text("TIENDA GENERICA", 20, 20);
+    doc.setFontSize(11);
+    doc.text("Sistema de Facturación", 20, 27);
+    doc.text("Bogotá - Colombia", 20, 33);
+    doc.text("FACTURA N°: " + ventaConfirmada.codigoVenta, 140, 20);
+    doc.text("Fecha: " + ventaConfirmada.fecha, 140, 28);
+    doc.text("Cliente: " + ventaConfirmada.cliente.nombreCliente, 20, 50);
+    doc.text("Cédula: " + ventaConfirmada.cliente?.cedulaCliente, 20, 58);
+    doc.text("Usuario que registró la venta: " + ventaConfirmada.usuario, 20, 65);
 
-  const totalIVA = detalle.reduce(
-    (acc, item) => acc + (item.total * item.iva / 100),
-    0
-  );
+    let y = 80;
+    doc.text("Producto", 20, y);
+    doc.text("Cant", 110, y);
+    doc.text("Precio", 140, y);
+    doc.text("Total", 170, y);
 
-  const totalConIVA = subtotal + totalIVA;
+    y += 10;
+    ventaConfirmada.productos.forEach((p) => {
+      doc.text(p.nombre, 20, y);
+      doc.text(String(p.cantidad), 110, y);
+      doc.text(formatoCOP(p.valorUnitario), 140, y);
+      doc.text(formatoCOP(p.total), 170, y);
+      y += 8;
+    });
+
+    y += 10;
+    doc.text("Subtotal: " + formatoCOP(ventaConfirmada.subtotal), 140, y);
+    y += 8;
+    doc.text("IVA: " + formatoCOP(ventaConfirmada.iva), 140, y);
+    y += 8;
+    doc.text("TOTAL: " + formatoCOP(ventaConfirmada.total), 140, y);
+
+    doc.save("factura_" + ventaConfirmada.codigoVenta + ".pdf");
+  };
+
+  const subtotal = detalle.reduce((a, b) => a + b.total, 0);
+  const totalIVA = detalle.reduce((a, b) => a + b.total * b.iva / 100, 0);
+  const totalVenta = subtotal + totalIVA;
 
   return (
-
     <div className="venta-wrapper">
-
       <h2>Ventas</h2>
-
       <div className="venta-card">
-
-        {/* ========================= */}
         {/* CLIENTE */}
-        {/* ========================= */}
-
         <div className="fila-superior">
-
-          <div className="campo">
-            <label>Cédula</label>
-            <input
-              value={cedulaCliente}
-              onChange={(e) =>
-                setCedulaCliente(e.target.value)
-              }
-            />
-          </div>
-
-          <button onClick={buscarCliente}>
-            Consultar
-          </button>
-
-          <div className="campo">
-            <label>Cliente</label>
-            <input
-              value={clienteEncontrado?.nombreCliente || ""}
-              readOnly
-            />
-          </div>
-
-          <div className="campo">
-            <label>Consec.</label>
-            <input value={consecutivo} readOnly />
-          </div>
-
+          <input
+            placeholder="Cédula"
+            value={cedulaCliente}
+            onChange={(e) => setCedulaCliente(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && buscarCliente()}
+          />
+          <button onClick={buscarCliente}>Consultar</button>
+          <input placeholder="Cliente" value={clienteEncontrado?.nombreCliente || ""} readOnly />
         </div>
 
-        {/* ========================= */}
         {/* PRODUCTO */}
-        {/* ========================= */}
-
         <div className="fila-producto">
-
-          <div className="campo">
-            <label>Cod. Producto</label>
-            <input
-              value={codigoProducto}
-              onChange={(e) =>
-                setCodigoProducto(e.target.value)
-              }
-            />
-          </div>
-
-          <button onClick={buscarProducto}>
-            Consultar
-          </button>
-
-          <div className="campo">
-            <label>Nombre Producto</label>
-            <input
-              value={productoActual?.nombreProducto || ""}
-              readOnly
-            />
-          </div>
-
-          <div className="campo small">
-            <label>Cant.</label>
-            <input
-              type="number"
-              value={cantidad}
-              onChange={(e) =>
-                setCantidad(e.target.value)
-              }
-            />
-          </div>
-
-          <div className="campo">
-            <label>Vlr. Total</label>
-            <input
-              value={
-                productoActual && cantidad
-                  ? productoActual.precio_venta *
-                    cantidad
-                  : ""
-              }
-              readOnly
-            />
-          </div>
-
-          <button onClick={agregarProducto}>
-            Agregar
-          </button>
-
+          <input
+            ref={inputProductoRef}
+            placeholder="Código Producto"
+            value={codigoProducto}
+            onChange={(e) => setCodigoProducto(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && buscarProducto()}
+          />
+          <button onClick={buscarProducto}>Consultar</button>
+          <input placeholder="Producto" value={productoActual?.nombreProducto || ""} readOnly />
+          <input
+            ref={inputCantidadRef}
+            type="number"
+            placeholder="Cantidad"
+            value={cantidad}
+            onChange={(e) => setCantidad(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && agregarProducto()}
+          />
+          <input
+            placeholder="Total"
+            value={productoActual && cantidad ? formatoCOP(Number(productoActual.precioVenta) * Number(cantidad)) : ""}
+            readOnly
+          />
+          <button onClick={agregarProducto}>Agregar</button>
         </div>
 
-        {/* ========================= */}
-        {/* DETALLE */}
-        {/* ========================= */}
+        <button className="btn-vaciar" onClick={vaciarVenta}>
+          Vaciar venta
+        </button>
+        <button className="btn-nueva" onClick={nuevaVenta}>
+          Nueva venta
+        </button>
 
-        <div className="detalle-lista">
+        {/* DETALLE DE VENTA */}
+        <table className="tabla-venta">
+          <thead>
+            <tr>
+              <th>Cod</th>
+              <th>Producto</th>
+              <th>Cant</th>
+              <th>Precio</th>
+              <th>Total</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {detalle.map((d, i) => (
+              <tr key={i}>
+                <td>{d.codigo}</td>
+                <td>{d.nombre}</td>
+                <td>
+                  <input
+                    type="number"
+                    value={d.cantidad}
+                    onChange={(e) => editarCantidad(i, e.target.value)}
+                    style={{ width: "60px" }}
+                  />
+                </td>
+                <td>{formatoCOP(d.valorUnitario)}</td>
+                <td>{formatoCOP(d.total)}</td>
+                <td>
+                  <button onClick={() => eliminarProducto(i)}>Eliminar</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
-          {detalle.map((item, index) => (
-
-            <div key={index} className="detalle-item">
-
-              <span>{item.codigo}</span>
-              <span>{item.nombre}</span>
-              <span>{item.cantidad}</span>
-              <span>{item.total}</span>
-
-            </div>
-
-          ))}
-
+        {/* RESUMEN */}
+        <div className="resumen-precios">
+          <div className="precio-box">
+            <span>Subtotal</span>
+            <strong>{formatoCOP(subtotal)}</strong>
+          </div>
+          <div className="precio-box">
+            <span>IVA</span>
+            <strong>{formatoCOP(totalIVA)}</strong>
+          </div>
+          <div className="precio-box total">
+            <span>Total</span>
+            <strong>{formatoCOP(totalVenta)}</strong>
+          </div>
         </div>
 
-        {/* ========================= */}
-        {/* TOTALES */}
-        {/* ========================= */}
-
-        <div className="seccion-final">
-
-          <div className="totales">
-
-            <div>
-              <label>Total Venta</label>
-              <input value={subtotal} readOnly />
-            </div>
-
-            <div>
-              <label>Total IVA</label>
-              <input value={totalIVA} readOnly />
-            </div>
-
-            <div>
-              <label>Total con IVA</label>
-              <input value={totalConIVA} readOnly />
-            </div>
-
-          </div>
-
-          <div className="confirmar">
-
-            <button onClick={totalizar}>
-              Confirmar
-            </button>
-
-          </div>
-
-        </div>
-
+        <button className="btn-confirmar" onClick={totalizar}>
+          Confirmar Venta
+        </button>
       </div>
 
+      {/* MODAL FACTURA */}
+      {mostrarFactura && ventaConfirmada && (
+        <div className="modal-overlay">
+          <div className="modal-factura">
+            <div className="factura-header">
+              <div>
+                <h2>Factura</h2>
+                <p>No. {ventaConfirmada.codigoVenta}</p>
+              </div>
+              <div>
+                <b>Fecha</b>
+                <p>{ventaConfirmada.fecha}</p>
+              </div>
+            </div>
+            <div className="factura-cliente">
+              <div>
+                <p className="titulo">Cliente</p>
+                <p>{ventaConfirmada.cliente.nombreCliente}</p>
+              </div>
+              <div>
+                <p className="titulo">Cédula</p>
+                <p>{ventaConfirmada.cliente?.cedulaCliente}</p>
+              </div>
+              <div>
+                <p className="titulo">Usuario</p>
+                <p>{ventaConfirmada.usuario}</p>
+              </div>
+            </div>
+            <table className="factura-tabla">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>Cant</th>
+                  <th>Precio</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {ventaConfirmada.productos.map((p, i) => (
+                  <tr key={i}>
+                    <td>{p.nombre}</td>
+                    <td>{p.cantidad}</td>
+                    <td>{formatoCOP(p.valorUnitario)}</td>
+                    <td>{formatoCOP(p.total)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="factura-totales">
+              <div>
+                <span>Subtotal</span>
+                <span>{formatoCOP(ventaConfirmada.subtotal)}</span>
+              </div>
+              <div>
+                <span>IVA</span>
+                <span>{formatoCOP(ventaConfirmada.iva)}</span>
+              </div>
+              <div className="factura-total">
+                <span>Total</span>
+                <span>{formatoCOP(ventaConfirmada.total)}</span>
+              </div>
+            </div>
+            <div className="factura-botones">
+              <button className="btn-pdf" onClick={generarFactura}>
+                Descargar PDF
+              </button>
+              <button className="btn-cerrar" onClick={() => setMostrarFactura(false)}>
+                Cerrar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
-
   );
-
 }
 
 export default Venta;

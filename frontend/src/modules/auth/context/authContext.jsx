@@ -3,15 +3,25 @@ import { createContext, useContext, useState } from "react";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+
   const [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem("usuario");
-    return storedUser ? JSON.parse(storedUser) : null;
+
+    if (!storedUser) return null;
+
+    try {
+      return JSON.parse(storedUser);
+    } catch (error) {
+      // si antes se guardó como string simple ("admin")
+      return null;
+    }
   });
 
   const isAuthenticated = !!user;
 
   const login = (usuarioData) => {
     localStorage.setItem("usuario", JSON.stringify(usuarioData));
+    localStorage.setItem("token", usuarioData.token);
     setUser(usuarioData);
   };
 

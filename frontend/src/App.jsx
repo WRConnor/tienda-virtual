@@ -1,36 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import "./styles/global.css";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+// Páginas
+import Login from "./modules/auth/pages/Login";
+import AdminPanel from "./modules/users/pages/Usuario";
+import ClientePanel from "./modules/clients/pages/ClientePanel";
+import CajeroPanel from "./modules/users/pages/CajeroPanel";
+import GerentePanel from "./modules/users/pages/GerentePanel";
+import InventarioPanel from "./modules/users/pages/InventarioPanel";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const rol = localStorage.getItem("rol"); // rol del usuario logueado
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+
+        {/* Login */}
+        <Route path="/login" element={<Login />} />
+
+        {/* Interfaces separadas por rol */}
+        <Route path="/admin/*" element={rol === "ADMIN" ? <AdminPanel /> : <Navigate to="/login" />} />
+        <Route path="/cliente/*" element={rol === "CLIENTE" ? <ClientePanel /> : <Navigate to="/login" />} />
+        <Route path="/ventas/*" element={rol === "CAJERO" ? <CajeroPanel /> : <Navigate to="/login" />} />
+        <Route path="/reportes/*" element={rol === "GERENTE" ? <GerentePanel /> : <Navigate to="/login" />} />
+        <Route path="/inventario/*" element={rol === "INVENTARIO" ? <InventarioPanel /> : <Navigate to="/login" />} />
+
+        {/* Ruta default: redirige al panel según rol o login */}
+        <Route
+          path="*"
+          element={
+            rol
+              ? rol === "ADMIN" ? <Navigate to="/admin" /> :
+                rol === "CLIENTE" ? <Navigate to="/cliente" /> :
+                rol === "CAJERO" ? <Navigate to="/ventas" /> :
+                rol === "GERENTE" ? <Navigate to="/reportes" /> :
+                rol === "INVENTARIO" ? <Navigate to="/inventario" /> :
+                <Navigate to="/login" />
+              : <Navigate to="/login" />
+          }
+        />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
