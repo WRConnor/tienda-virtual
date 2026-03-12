@@ -1,0 +1,282 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* 🌌 Wrapper general */
+.producto-wrapper {
+  padding: 40px;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* 🃏 Card principal */
+.producto-card {
+  background: #ffffff;
+  padding: 35px;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.producto-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.2);
+}
+
+.producto-card h2 {
+  font-weight: 600;
+  font-size: 24px;
+  color: #1e293b;
+}
+
+/* 📝 Formulario en columnas */
+.producto-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.producto-card label {
+  font-weight: 500;
+  color: #334155;
+  font-size: 14px;
+}
+
+/* Inputs modernos */
+.producto-card input {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  font-size: 14px;
+  transition: all 0.25s ease;
+}
+
+.producto-card input:focus {
+  outline: none;
+  border-color: #2563eb;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+/* ✨ Botones modernos */
+.producto-buttons,
+.producto-card > div input[type="file"] + button {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.producto-card button {
+  padding: 12px 22px;
+  border-radius: 10px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.producto-card button:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(37,99,235,0.3);
+}
+
+/* ❌ Mensajes de error */
+.error {
+  color: #dc2626;
+  font-size: 14px;
+  margin-top: 12px;
+  background: #fee2e2;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #fecaca;
+}
+
+/* 🖥 Tabla productos */
+.producto-table-container {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+  overflow-x: auto;
+}
+
+.producto-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  min-width: 700px;
+}
+
+/* Encabezado */
+.producto-table th {
+  text-align: left;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #64748b;
+  padding: 14px 12px;
+  border-bottom: 2px solid #e2e8f0;
+  background: #f1f5f9;
+}
+
+/* Celdas */
+.producto-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #1e293b;
+}
+
+/* Hover elegante de filas */
+.producto-table tbody tr {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.producto-table tbody tr:hover {
+  background: #e0f2fe;
+  transform: translateX(2px);
+}
+
+/* 📂 Inputs de archivo */
+input[type="file"] {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.25s ease;
+}
+
+input[type="file"]:hover {
+  border-color: #2563eb;
+}
+
+/* 🖼 Responsive */
+@media (max-width: 768px) {
+  .producto-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+.productos-container {
+  padding: 20px;
+}
+
+.csv-button {
+  background: #1976d2;
+  color: white;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.tabla-productos {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.tabla-productos th,
+.tabla-productos td {
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  width: 600px;
+}
+
+.tabla-preview {
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
+}
+
+.tabla-preview th,
+.tabla-preview td {
+  border: 1px solid #ddd;
+  padding: 6px;
+}
+
+.modal-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.confirm-btn {
+  background: green;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+}
+
+.cancel-btn {
+  background: red;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+}
+
+.csv-modal-overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  background: rgba(0,0,0,0.6);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 9999;
+}
+
+.csv-modal{
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+
+  width: 900px;
+  max-height: 80vh;
+
+  overflow-y: auto;
+
+  box-shadow: 0px 10px 40px rgba(0,0,0,0.4);
+}

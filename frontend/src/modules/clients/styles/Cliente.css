@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.cliente-wrapper {
+  padding: 40px;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+}
+
+/* Card principal */
+.cliente-card {
+  background: #ffffff;
+  padding: 35px;
+  border-radius: 16px;
+  margin-bottom: 40px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+.cliente-card h2 {
+  margin-bottom: 30px;
+  font-weight: 600;
+  font-size: 22px;
+  color: #1e293b;
+}
+
+/* Form */
+.cliente-form {
+  display: flex;
+  gap: 60px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+.form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-column input {
+  width: 260px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  font-size: 14px;
+  transition: all 0.25s ease;
+}
+
+.form-column input:focus {
+  outline: none;
+  border-color: #2563eb;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+/* Botones */
+.cliente-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.cliente-buttons button {
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* Primario */
+.cliente-buttons button:first-child {
+  background: #2563eb;
+  color: white;
+}
+
+.cliente-buttons button:first-child:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(37,99,235,0.3);
+}
+
+/* Secundario */
+.cliente-buttons button:last-child {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.cliente-buttons button:last-child:hover {
+  background: #cbd5e1;
+}
+
+/* Tabla */
+.cliente-table-container {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+}
+
+.cliente-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.cliente-table th {
+  text-align: left;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #64748b;
+  padding: 14px 12px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.cliente-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #1e293b;
+}
+
+.cliente-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.cliente-table tbody tr:hover {
+  background: #f8fafc;
+}
