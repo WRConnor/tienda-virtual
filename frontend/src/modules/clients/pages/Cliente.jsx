@@ -1,12 +1,9 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { api } from "../../../api/api";
 import "../styles/Cliente.css";
 
 function Cliente() {
-  const navigate = useNavigate();
   const [clientes, setClientes] = useState([]);
-
   const [form, setForm] = useState({
     idCliente: null,
     cedulaCliente: "",
@@ -17,56 +14,40 @@ function Cliente() {
   });
 
   const token = localStorage.getItem("token");
-  const rol = localStorage.getItem("rol");
 
-  // Solo ADMIN puede acceder
+  // Cargar clientes siempre que el componente monte
   useEffect(() => {
-    if (rol !== "ADMIN") {
-      alert("No tienes permiso para acceder a Clientes");
-      navigate("/login"); // Redirige al login si no es admin
-      return;
-    }
     cargarClientes();
   }, []);
 
   const cargarClientes = async () => {
     try {
-      const data = await api.getClientes(token); // asegurarse de pasar token
+      const data = await api.getClientes(token); // pasar token
       setClientes(Array.isArray(data) ? data : []);
     } catch (error) {
-      if (error.response?.status === 403) {
-        alert("No tienes permiso para ver clientes");
-      } else {
-        alert("Error cargando clientes: " + error.message);
-      }
+      alert("Error cargando clientes: " + (error.message || "desconocido"));
       setClientes([]);
     }
   };
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const limpiar = () => {
-    setForm({
-      idCliente: null,
-      cedulaCliente: "",
-      nombreCliente: "",
-      direccionCliente: "",
-      telefonoCliente: "",
-      emailCliente: ""
-    });
-  };
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const limpiar = () => setForm({
+    idCliente: null,
+    cedulaCliente: "",
+    nombreCliente: "",
+    direccionCliente: "",
+    telefonoCliente: "",
+    emailCliente: ""
+  });
 
   const crearCliente = async () => {
-    if (rol !== "ADMIN") return;
     try {
       await api.crearCliente(form, token);
       await cargarClientes();
       limpiar();
       alert("Cliente creado con éxito");
     } catch (error) {
-      alert("Error al crear cliente: " + error.message);
+      alert("Error al crear cliente: " + (error.message || "desconocido"));
     }
   };
 
@@ -86,7 +67,7 @@ function Cliente() {
       limpiar();
       alert("Cliente actualizado con éxito");
     } catch (error) {
-      alert("Error al actualizar cliente: " + error.message);
+      alert("Error al actualizar cliente: " + (error.message || "desconocido"));
     }
   };
 
@@ -98,7 +79,7 @@ function Cliente() {
       limpiar();
       alert("Cliente eliminado con éxito");
     } catch (error) {
-      alert("Error al eliminar cliente: " + error.message);
+      alert("Error al eliminar cliente: " + (error.message || "desconocido"));
     }
   };
 
@@ -127,9 +108,10 @@ function Cliente() {
 
         <div className="cliente-buttons">
           <button type="button" onClick={consultarCliente}>Consultar</button>
-          {rol === "ADMIN" && <button type="button" onClick={crearCliente}>Crear</button>}
+          <button type="button" onClick={crearCliente}>Crear</button>
           <button type="button" onClick={actualizarCliente}>Actualizar</button>
           <button type="button" onClick={borrarCliente}>Borrar</button>
+          <button type="button" onClick={limpiar}>Limpiar</button>
         </div>
       </div>
 
