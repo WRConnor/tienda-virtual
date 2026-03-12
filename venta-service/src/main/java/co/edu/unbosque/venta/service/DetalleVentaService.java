@@ -11,73 +11,76 @@ import co.edu.unbosque.venta.repository.DetalleVentaRepository;
 
 @Service
 public class DetalleVentaService implements CRUDOperations<DetalleVenta> {
-	
-	@Autowired
-	DetalleVentaRepository detalleVentaRepo;
 
-	@Override
-	public int crear(DetalleVenta o) {
-		if(findTitleAlreadyTaken(o)) {
-			return 1;
-		}else {
-			detalleVentaRepo.save(o);
-			return 0;
-		}
-	}
+    @Autowired
+    DetalleVentaRepository detalleVentaRepo;
 
-	@Override
-	public int eliminar(Long in) {
-		if(detalleVentaRepo.existsById(in)) {
-			detalleVentaRepo.deleteById(in);
-			return 0;
-		}else {
-			return 1;
-		}
-	}
+    @Override
+    public int crear(DetalleVenta o) {
 
-	@Override
-	public List<DetalleVenta> mostrarTodo() {
-		return detalleVentaRepo.findAll();
-	}
+        if (findTitleAlreadyTaken(o)) {
+            return 1;
+        }
 
-	@Override
-	public int actualizar(Long id, DetalleVenta nuevaData) {
-		Optional<DetalleVenta> found = detalleVentaRepo.findById(id);
-		Optional<DetalleVenta> newFound = detalleVentaRepo.findByCodigoDetalleVenta(nuevaData.getCodigoDetalleVenta());
-		
-		if (found.isPresent() && !newFound.isPresent()) {
-			DetalleVenta temp = found.get();
-			temp.setCantidadProducto(nuevaData.getCantidadProducto());
-			temp.setValorTotal(nuevaData.getValorTotal());
-			temp.setValorVenta(nuevaData.getValorVenta());
-			temp.setValorIva(nuevaData.getValorIva());
-			temp.setCodigoProducto(nuevaData.getCodigoProducto());
-			temp.setVenta(nuevaData.getVenta());
-			detalleVentaRepo.save(temp);
-			return 0;
-		}
-		if (found.isPresent() && newFound.isPresent()) {
-			return 1;
-		}
-		if (!found.isPresent()) {
-			return 2;
-		} else {
-			return 3;
-		}
-	}
+        detalleVentaRepo.save(o);
 
-	@Override
-	public Optional<DetalleVenta> buscarPorId(Long id) {
-		return detalleVentaRepo.findById(id);
-	}
-	
-	public boolean findTitleAlreadyTaken(DetalleVenta newDetalleVenta) {
-		Optional<DetalleVenta> found = detalleVentaRepo.findByCodigoDetalleVenta(newDetalleVenta.getCodigoDetalleVenta());
-		if (found.isPresent()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+        return 0;
+    }
 
+    @Override
+    public int eliminar(Long id) {
+
+        if (detalleVentaRepo.existsById(id)) {
+
+            detalleVentaRepo.deleteById(id);
+
+            return 0;
+        }
+
+        return 1;
+    }
+
+    @Override
+    public List<DetalleVenta> mostrarTodo() {
+
+        return detalleVentaRepo.findAll();
+    }
+
+    @Override
+    public int actualizar(Long id, DetalleVenta nuevaData) {
+
+        Optional<DetalleVenta> found = detalleVentaRepo.findById(id);
+
+        if (found.isPresent()) {
+
+            DetalleVenta temp = found.get();
+
+            temp.setCantidadProducto(nuevaData.getCantidadProducto());
+            temp.setValorTotal(nuevaData.getValorTotal());
+            temp.setValorVenta(nuevaData.getValorVenta());
+            temp.setValorIva(nuevaData.getValorIva());
+            temp.setCodigoProducto(nuevaData.getCodigoProducto());
+            temp.setVenta(nuevaData.getVenta());
+
+            detalleVentaRepo.save(temp);
+
+            return 0;
+        }
+
+        return 1;
+    }
+
+    @Override
+    public Optional<DetalleVenta> buscarPorId(Long id) {
+
+        return detalleVentaRepo.findById(id);
+    }
+
+    public boolean findTitleAlreadyTaken(DetalleVenta newDetalleVenta) {
+
+        Optional<DetalleVenta> found =
+                detalleVentaRepo.findByCodigoDetalleVenta(newDetalleVenta.getCodigoDetalleVenta());
+
+        return found.isPresent();
+    }
 }

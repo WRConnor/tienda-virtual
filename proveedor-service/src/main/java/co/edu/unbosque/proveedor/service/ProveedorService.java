@@ -44,25 +44,21 @@ public class ProveedorService implements CRUDOperations<Proveedor> {
 	public int actualizar(Long id, Proveedor nuevaData) {
 		Optional<Proveedor> found = proveedorRepo.findById(id);
 		Optional<Proveedor> newFound = proveedorRepo.findByNitProveedor(nuevaData.getNitProveedor());
-		
-		if (found.isPresent() && !newFound.isPresent()) {
-			Proveedor temp = found.get();
-			temp.setNitProveedor(nuevaData.getNitProveedor());
-			temp.setNombreProveedor(nuevaData.getNombreProveedor());
-			temp.setDireccionProveedor(nuevaData.getDireccionProveedor());
-			temp.setCiudadProveedor(nuevaData.getCiudadProveedor());
-			temp.setTelefonoProveedor(nuevaData.getTelefonoProveedor());
-			proveedorRepo.save(temp);
-			return 0;
-		}
-		if (found.isPresent() && newFound.isPresent()) {
-			return 1;
-		}
-		if (!found.isPresent()) {
-			return 2;
-		} else {
-			return 3;
-		}
+
+		if (!found.isPresent()) return 2; // no encontrado
+
+		// permite actualizar si el NIT es único o pertenece al mismo proveedor
+		if (newFound.isPresent() && !newFound.get().getIdProveedor().equals(id)) return 1; // NIT duplicado
+
+		Proveedor temp = found.get();
+		temp.setNitProveedor(nuevaData.getNitProveedor());
+		temp.setNombreProveedor(nuevaData.getNombreProveedor());
+		temp.setDireccionProveedor(nuevaData.getDireccionProveedor());
+		temp.setCiudadProveedor(nuevaData.getCiudadProveedor());
+		temp.setTelefonoProveedor(nuevaData.getTelefonoProveedor());
+		proveedorRepo.save(temp);
+
+		return 0; // éxito
 	}
 
 	@Override

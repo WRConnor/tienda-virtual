@@ -8,100 +8,102 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="productos")
+@Table(name = "productos")
 public class Producto {
-	
-	    @Id
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    @Column(name="id_producto")
-	    private Long idProducto;
-	    
-	    @Column(name = "codigo_producto")
-	    private Long codigoProducto;
 
-	    @Column(name = "nombre_producto")
-	    private String nombreProducto;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_producto")
+	private Long idProducto;
 
-	    @Column(name = "precio_compra")
-	    private Double precioCompra;
+	@Column(name = "codigo_producto")
+	private Long codigoProducto;
 
-	    @Column(name = "precio_venta")
-	    private Double precioVenta;
+	@Column(name = "nombre_producto")
+	private String nombreProducto;
 
-	    @Column(name = "ivacompra")
-	    private Double ivaCompra;
+	@Column(name = "precio_compra")
+	private Double precioCompra;
 
-	    @Column(name = "nitproveedor")
-	    private Long nitProveedor;
-	    
-	    public Producto() {
-			// TODO Auto-generated constructor stub
-		}
+	@Column(name = "precio_venta")
+	private Double precioVenta;
 
-		public Producto(String nombreProducto, Double precioCompra, Double precioVenta, Double ivaCompra,
-				Long nitProveedor) {
-			super();
-			this.nombreProducto = nombreProducto;
-			this.precioCompra = precioCompra;
-			this.precioVenta = precioVenta;
-			this.ivaCompra = ivaCompra;
-			this.nitProveedor = nitProveedor;
-		}
+	@Column(name = "ivacompra")
+	private Double ivaCompra;
 
-		public Long getCodigoProducto() {
-			return codigoProducto;
-		}
+	@Column(name = "nitproveedor")
+	private Long nitProveedor;
 
-		public void setCodigoProducto(Long codigoProducto) {
-			this.codigoProducto = codigoProducto;
-		}
+	public Producto() {
+		// TODO Auto-generated constructor stub
+	}
 
-		public String getNombreProducto() {
-			return nombreProducto;
-		}
+	public Producto(long codigoProducto, String nombreProducto, long nitProveedor,
+			double precioCompra, double ivaCompra, double precioVenta) {
 
-		public void setNombreProducto(String nombreProducto) {
-			this.nombreProducto = nombreProducto;
-		}
+		this.codigoProducto = codigoProducto;
+		this.nombreProducto = nombreProducto;
+		this.nitProveedor = nitProveedor;
+		this.precioCompra = precioCompra;
+		this.ivaCompra = ivaCompra;
+		this.precioVenta = precioVenta;
 
-		public Double getPrecioCompra() {
-			return precioCompra;
-		}
+	}
 
-		public void setPrecioCompra(Double precioCompra) {
-			this.precioCompra = precioCompra;
-		}
+	public Long getCodigoProducto() {
+		return codigoProducto;
+	}
 
-		public Double getPrecioVenta() {
-			return precioVenta;
-		}
+	public void setCodigoProducto(Long codigoProducto) {
+		this.codigoProducto = codigoProducto;
+	}
 
-		public void setPrecioVenta(Double precioVenta) {
-			this.precioVenta = precioVenta;
-		}
+	public String getNombreProducto() {
+		return nombreProducto;
+	}
 
-		public Double getIvaCompra() {
-			return ivaCompra;
-		}
+	public void setNombreProducto(String nombreProducto) {
+		this.nombreProducto = nombreProducto;
+	}
 
-		public void setIvaCompra(Double ivaCompra) {
-			this.ivaCompra = ivaCompra;
-		}
+	public Double getPrecioCompra() {
+		return precioCompra;
+	}
 
-		public Long getNitProveedor() {
-			return nitProveedor;
-		}
+	public void setPrecioCompra(Double precioCompra) {
+		this.precioCompra = precioCompra;
+	}
 
-		public void setNitProveedor(Long nitProveedor) {
-			this.nitProveedor = nitProveedor;
-		}
+	public Double getPrecioVenta() {
+		return precioVenta;
+	}
 
-		public Long getIdProducto() {
-			return idProducto;
-		}
+	public void setPrecioVenta(Double precioVenta) {
+		this.precioVenta = precioVenta;
+	}
 
-		public void setIdProducto(Long idProducto) {
-			this.idProducto = idProducto;
-		}
-			
+	public Double getIvaCompra() {
+		return ivaCompra;
+	}
+
+	public void setIvaCompra(Double ivaCompra) {
+		this.ivaCompra = ivaCompra;
+	}
+
+	public Long getNitProveedor() {
+		return nitProveedor;
+	}
+
+	public void setNitProveedor(Long nitProveedor) {
+		this.nitProveedor = nitProveedor;
+	}
+
+	public Long getIdProducto() {
+		return idProducto;
+	}
+
+	public void setIdProducto(Long idProducto) {
+		this.idProducto = idProducto;
+	}
+
 }

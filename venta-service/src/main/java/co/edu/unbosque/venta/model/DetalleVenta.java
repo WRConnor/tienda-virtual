@@ -12,14 +12,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="detalle_ventas")
+@Table(name = "detalle_ventas")
 public class DetalleVenta {
-	
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id_detalleventa")
+    @Column(name = "id_detalleventa")
     private Long idDetalleVenta;
-    
+
     @Column(name = "codigo_detalle_venta")
     private Long codigoDetalleVenta;
 
@@ -37,90 +37,86 @@ public class DetalleVenta {
 
     @Column(name = "codigo_producto")
     private Long codigoProducto;
-    
+
     @ManyToOne
     @JoinColumn(name = "id_venta")
     @JsonIgnore
     private Venta venta;
-    
-    public DetalleVenta() {
-		// TODO Auto-generated constructor stub
-	}
 
-	public DetalleVenta(Long codigoDetalleVenta, Integer cantidadProducto, Double valorTotal, Double valorVenta,
-			Double valorIva, Long codigoProducto, Venta venta) {
-		super();
-		this.codigoDetalleVenta = codigoDetalleVenta;
-		this.cantidadProducto = cantidadProducto;
-		this.valorTotal = valorTotal;
-		this.valorVenta = valorVenta;
-		this.valorIva = valorIva;
-		this.codigoProducto = codigoProducto;
-		this.venta = venta;
-	}
+    public DetalleVenta() {}
 
-	public Long getIdDetalleVenta() {
-		return idDetalleVenta;
-	}
+    public DetalleVenta(Long codigoDetalleVenta, Integer cantidadProducto, Double valorTotal,
+                        Double valorVenta, Double valorIva, Long codigoProducto, Venta venta) {
+        this.codigoDetalleVenta = codigoDetalleVenta;
+        this.cantidadProducto = cantidadProducto;
+        this.valorTotal = valorTotal;
+        this.valorVenta = valorVenta;
+        this.valorIva = valorIva;
+        this.codigoProducto = codigoProducto;
+        this.venta = venta;
+    }
 
-	public void setIdDetalleVenta(Long idDetalleVenta) {
-		this.idDetalleVenta = idDetalleVenta;
-	}
+    public Long getIdDetalleVenta() {
+        return idDetalleVenta;
+    }
 
-	public Long getCodigoDetalleVenta() {
-		return codigoDetalleVenta;
-	}
+    public void setIdDetalleVenta(Long idDetalleVenta) {
+        this.idDetalleVenta = idDetalleVenta;
+    }
 
-	public void setCodigoDetalleVenta(Long codigoDetalleVenta) {
-		this.codigoDetalleVenta = codigoDetalleVenta;
-	}
+    public Long getCodigoDetalleVenta() {
+        return codigoDetalleVenta;
+    }
 
-	public Integer getCantidadProducto() {
-		return cantidadProducto;
-	}
+    public void setCodigoDetalleVenta(Long codigoDetalleVenta) {
+        this.codigoDetalleVenta = codigoDetalleVenta;
+    }
 
-	public void setCantidadProducto(Integer cantidadProducto) {
-		this.cantidadProducto = cantidadProducto;
-	}
+    public Integer getCantidadProducto() {
+        return cantidadProducto;
+    }
 
-	public Double getValorTotal() {
-		return valorTotal;
-	}
+    public void setCantidadProducto(Integer cantidadProducto) {
+        this.cantidadProducto = cantidadProducto;
+    }
 
-	public void setValorTotal(Double valorTotal) {
-		this.valorTotal = valorTotal;
-	}
+    public Double getValorTotal() {
+        return valorTotal;
+    }
 
-	public Double getValorVenta() {
-		return valorVenta;
-	}
+    public void setValorTotal(Double valorTotal) {
+        this.valorTotal = valorTotal;
+    }
 
-	public void setValorVenta(Double valorVenta) {
-		this.valorVenta = valorVenta;
-	}
+    public Double getValorVenta() {
+        return valorVenta;
+    }
 
-	public Double getValorIva() {
-		return valorIva;
-	}
+    public void setValorVenta(Double valorVenta) {
+        this.valorVenta = valorVenta;
+    }
 
-	public void setValorIva(Double valorIva) {
-		this.valorIva = valorIva;
-	}
+    public Double getValorIva() {
+        return valorIva;
+    }
 
-	public Long getCodigoProducto() {
-		return codigoProducto;
-	}
+    public void setValorIva(Double valorIva) {
+        this.valorIva = valorIva;
+    }
 
-	public void setCodigoProducto(Long codigoProducto) {
-		this.codigoProducto = codigoProducto;
-	}
+    public Long getCodigoProducto() {
+        return codigoProducto;
+    }
 
-	public Venta getVenta() {
-		return venta;
-	}
+    public void setCodigoProducto(Long codigoProducto) {
+        this.codigoProducto = codigoProducto;
+    }
 
-	public void setVenta(Venta venta) {
-		this.venta = venta;
-	}
-    
+    public Venta getVenta() {
+        return venta;
+    }
+
+    public void setVenta(Venta venta) {
+        this.venta = venta;
+    }
 }

@@ -85,7 +85,7 @@ public class UsuarioController {
 			String token = jwtService.generateToken(u.getUsuario(), u.getRol());
 			return new ResponseEntity<>(new LoginResponse(token, u.getRol(),u.getUsuario(),u.getCedulaUsuario()), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>("Usuario o contraseña no válida", HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>("Usuario o contraseña no v	álida", HttpStatus.UNAUTHORIZED);
 		}
 	}
 	
