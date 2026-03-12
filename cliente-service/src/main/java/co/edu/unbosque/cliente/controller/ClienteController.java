@@ -23,7 +23,7 @@ import co.edu.unbosque.cliente.service.ClienteService;
 @RestController
 @RequestMapping("/api/clientes")
 @Transactional
-@CrossOrigin(origins = { "*", "localhost:8080" })
+@CrossOrigin(origins = { "*", "localhost:8081" })
 public class ClienteController {
 
 	@Autowired
@@ -52,11 +52,11 @@ public class ClienteController {
 		int status = clienteServ.actualizar(id, o);
 
 		if (status == 0) {
-			return new ResponseEntity<>("Cliente actualizado con exito", HttpStatus.ACCEPTED);
+			return new ResponseEntity<>("Cliente actualizado con exito", HttpStatus.OK);
 		} else if (status == 1) {
-			return new ResponseEntity<>("Cliente no encontrado ", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Cedula ya registrada", HttpStatus.BAD_REQUEST);
 		} else {
-			return new ResponseEntity<>("Error al actualizar", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Cliente no encontrado", HttpStatus.NOT_FOUND);
 		}
 	}
 	
@@ -64,6 +64,16 @@ public class ClienteController {
 	public ResponseEntity<List<Cliente>> mostrarTodo() {
 		List<Cliente> encontrado = clienteServ.mostrarTodo();
 		if(encontrado.isEmpty()) {
+			return new ResponseEntity<>(encontrado,HttpStatus.NO_CONTENT);
+		}else {
+			return new ResponseEntity<>(encontrado,HttpStatus.ACCEPTED); 
+		}
+	}
+	
+	@PostMapping("/buscarPorCedula/{cedula}")
+	public ResponseEntity<Cliente> buscar(@PathVariable  Long cedula ) {
+		Cliente encontrado = clienteServ.buscarPorCedula(cedula);
+		if(encontrado==null) {
 			return new ResponseEntity<>(encontrado,HttpStatus.NO_CONTENT);
 		}else {
 			return new ResponseEntity<>(encontrado,HttpStatus.ACCEPTED); 

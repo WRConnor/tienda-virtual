@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+
 @Entity
 @Table(name="usuarios")
 public class Usuario {
@@ -30,6 +31,9 @@ public class Usuario {
 
     @Column(name = "password")
     private String password;
+
+    @Column(name = "rol")
+    private String rol;
     
     public Usuario() {
 		// TODO Auto-generated constructor stub
@@ -42,6 +46,12 @@ public class Usuario {
 		this.emailUsuario = emailUsuario;
 		this.usuario = usuario;
 		this.password = password;
+		this.rol = "USER";
+	}
+
+	public Usuario(Long cedulaUsuario, String nombreUsuario, String emailUsuario, String usuario, String password, String rol) {
+		this(cedulaUsuario, nombreUsuario, emailUsuario, usuario, password);
+		this.rol = rol;
 	}
 
 	public Long getCedulaUsuario() {
@@ -90,6 +100,14 @@ public class Usuario {
 
 	public void setIdUsuario(Long idUsuario) {
 		this.idUsuario = idUsuario;
+	}
+
+	public String getRol() {
+		return rol;
+	}
+
+	public void setRol(String rol) {
+		this.rol = rol;
 	}
 	
 	

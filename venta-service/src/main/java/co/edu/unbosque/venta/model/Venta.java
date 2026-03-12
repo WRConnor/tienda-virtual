@@ -1,10 +1,14 @@
 package co.edu.unbosque.venta.model;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -33,19 +37,24 @@ public class Venta {
 
     @Column(name = "valor_venta")
     private Double valorVenta;
+
+	@OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DetalleVenta> detalles;
     
     public Venta() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Venta(Long cedulaCliente, Long cedulaUsuario, Double ivaVenta, Double totalVenta,
-			Double valorVenta) {
+	public Venta(Long codigoVenta, Long cedulaCliente, Long cedulaUsuario, Double ivaVenta, Double totalVenta,
+			Double valorVenta, List<DetalleVenta> detalles) {
 		super();
+		this.codigoVenta = codigoVenta;
 		this.cedulaCliente = cedulaCliente;
 		this.cedulaUsuario = cedulaUsuario;
 		this.ivaVenta = ivaVenta;
 		this.totalVenta = totalVenta;
 		this.valorVenta = valorVenta;
+		this.detalles = detalles;
 	}
 
 	public Long getIdVenta() {
@@ -103,4 +112,16 @@ public class Venta {
 	public void setValorVenta(Double valorVenta) {
 		this.valorVenta = valorVenta;
 	}
+
+	public List<DetalleVenta> getDetalles() {
+		return detalles;
+	}
+
+	public void setDetalles(List<DetalleVenta> detalles) {
+		this.detalles = detalles;
+	}
+    
+    
+
+
 }
