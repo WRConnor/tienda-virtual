@@ -42,42 +42,47 @@ public class UsuarioService implements CRUDOperations<Usuario> {
 
 	@Override
 	public int actualizar(Long id, Usuario nuevaData) {
-		Optional<Usuario> found = usuarioRepo.findById(id);
-		Optional<Usuario> newFound = usuarioRepo.findByCedulaUsuario(nuevaData.getCedulaUsuario());
-		
-		if (found.isPresent() && !newFound.isPresent()) {
-			Usuario temp = found.get();
-			temp.setEmailUsuario(nuevaData.getEmailUsuario());
-			temp.setCedulaUsuario(nuevaData.getCedulaUsuario());
-			temp.setNombreUsuario(nuevaData.getNombreUsuario());
-			temp.setPassword(nuevaData.getPassword());
-			temp.setUsuario(nuevaData.getUsuario());
-			usuarioRepo.save(temp);
-			return 0;
-		}
-		if (found.isPresent() && newFound.isPresent()) {
-			return 1;
-		}
-		if (!found.isPresent()) {
-			return 2;
-		} else {
-			return 3;
-		}
-	}
 
-	@Override
+		Optional<Usuario> found = usuarioRepo.findById(id);
+
+		if (!found.isPresent()) {
+			return 2; 
+		}
+
+		Usuario existente = found.get();
+
+		Optional<Usuario> cedulaExistente = usuarioRepo.findByCedulaUsuario(nuevaData.getCedulaUsuario());
+
+
+		if (cedulaExistente.isPresent() &&
+			!cedulaExistente.get().getIdUsuario().equals(id)) {
+			return 1; 
+		}
+
+		existente.setEmailUsuario(nuevaData.getEmailUsuario());
+		existente.setCedulaUsuario(nuevaData.getCedulaUsuario());
+		existente.setNombreUsuario(nuevaData.getNombreUsuario());
+		existente.setPassword(nuevaData.getPassword());
+		existente.setUsuario(nuevaData.getUsuario());
+
+		usuarioRepo.save(existente);
+
+		return 0; // éxito
+	}
 	public Optional<Usuario> buscarPorId(Long id) {
 		return usuarioRepo.findById(id);
 	}
 	
-	public boolean login(String password, String user) {
+	public Optional<Usuario> login(String user, String password) {
 		for (Usuario u : mostrarTodo()) {
-			if (u.getUsuario().equals(user) & u.getPassword().equals(password)){
-				return true;
+			if (u.getUsuario().equals(user) && u.getPassword().equals(password)){
+				return Optional.of(u);
 			}
 		}
-		return false;
+		return Optional.empty();
 	}
+
+
 	
 	
 	public boolean findTitleAlreadyTaken(Usuario newUsuario) {
@@ -88,5 +93,7 @@ public class UsuarioService implements CRUDOperations<Usuario> {
 			return false;
 		}
 	}
+
+	
 
 }

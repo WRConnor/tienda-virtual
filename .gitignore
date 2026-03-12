@@ -1,0 +1,258 @@
+################################################################################
+# PROYECTO TIENDA GENÉRICA - .gitignore
+# Arquitectura: Microservicios Java Spring Boot + React Frontend (opcional)
+# Sistemas:    Windows 11, Linux
+# Actualizado: Marzo 4, 2026
+################################################################################
+
+################################################################################
+# JAVA / MAVEN / SPRING BOOT
+################################################################################
+# Build output
+target/
+build/
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+
+# Maven
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+pom.xml.target
+release.properties
+dependency-reduced-pom.xml
+.mvn/
+
+# Gradle (si se usa)
+.gradle/
+build/
+gradle-wrapper.properties
+
+# JVM Crash Logs
+hs_err_pid*.log
+replay_pid*.log
+
+# Compiled classes
+*.class
+*.ctxt
+
+# Package Files
+*.jar
+*.zip
+*.tar.gz
+*.rar
+
+################################################################################
+# IDEs - VSCode
+################################################################################
+.vscode/
+.vscode-remote/
+.history/
+*.code-workspace
+
+################################################################################
+# IDEs - IntelliJ IDEA
+################################################################################
+.idea/
+*.iml
+*.iws
+*.ipr
+*.ids
+*.orig
+*.iml
+
+################################################################################
+# IDEs - Eclipse
+################################################################################
+.classpath
+.project
+.cproject
+.settings/
+.properties
+.factorypath
+bin/
+.metadata
+local.properties
+.c9/
+*.launch
+.tern-port
+
+################################################################################
+# IDEs - Sublime Text
+################################################################################
+.sublime-workspace
+.sublime-project
+
+################################################################################
+# IDEs - Otros
+################################################################################
+.DS_Store
+.AppleDouble
+.LSOverride
+*.sublime-workspace
+tags
+nbproject/
+.netbeans/
+.phpcompleterc
+
+################################################################################
+# FRONTEND - Node.js / React / JavaScript
+################################################################################
+# Dependencias
+node_modules/
+npm-debug.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Caché npm/yarn
+.npm
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# Build output frontend
+dist/
+build/
+.next/
+out/
+.env.local
+.env.*.local
+
+# React específico
+coverage/
+.env.development.local
+.env.test.local
+.env.production.local
+
+################################################################################
+# LOGS
+################################################################################
+*.log
+logs/
+*.log.*
+out/
+debug.log
+trace.log
+
+################################################################################
+# ARCHIVOS TEMPORALES Y DE SISTEMA
+################################################################################
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msobj
+*.exe
+*.o
+*.obj
+*.oclasses
+*.lnk
+*.pdb
+._*
+.Spotlight-V100
+.Trashes
+
+# Linux
+.fuse_hidden*
+.directory
+*~
+.nfs*
+.goutputstream*
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+*.swp
+*.swo
+
+################################################################################
+# ARCHIVOS DE SISTEMA Y EDITOR
+################################################################################
+*.swp
+*.swo
+*~
+*.swn
+.*.swp
+.tmp
+*.tmp
+*.bak
+*.backup
+*~.nib
+.AppleDouble
+.LSOverride
+._*
+
+################################################################################
+# DIRECTORIOS DE CACHÉ
+################################################################################
+.cache/
+.pytest_cache/
+.gradle/cache/
+node_modules/.cache/
+
+# Archivos de configuración local
+local.properties
+gradle.properties
+*.properties~
+
+# Archivos comprimidos
+*.zip
+*.7z
+*.rar
+*.tar
+*.tar.gz
+*.iso
+
+################################################################################
+# ARCHIVOS GENERADOS AUTOMÁTICAMENTE
+################################################################################
+# Spring Boot
+spring-configuration-metadata.json
+.spring.bak
+buildNumber.properties
+version.txt
+
+# Maven generated files
+.m2/
+.mvn/wrapper/maven-wrapper.properties
+
+################################################################################
+# ARCHIVOS ESPECÍFICOS DEL PROYECTO TIENDA GENÉRICA
+################################################################################
+# Base de datos local (si la usas)
+mysql/
+mariadb/
+db/
+
+# Archivos de datos sensibles
+credentials.json
+credentials.yaml
+secrets.json
+secrets.yaml
+
+################################################################################
+# EXCEPCIONES - ARCHIVOS QUE SÍ SE DEBEN INCLUIR
+################################################################################
+!.gitkeep
+!.gitignore
+!.env.example
+!pom.xml
+!package.json
+!package-lock.json (puede incluirse opcionalmente)
