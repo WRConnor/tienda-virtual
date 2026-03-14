@@ -1,0 +1,5 @@
+co.edu.unbosque.cliente
+co.edu.unbosque.cliente.controller
+co.edu.unbosque.cliente.model
+co.edu.unbosque.cliente.repository
+co.edu.unbosque.cliente.service

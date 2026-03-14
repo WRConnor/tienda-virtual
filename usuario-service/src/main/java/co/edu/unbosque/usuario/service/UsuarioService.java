@@ -1,11 +1,3 @@
-/**
- * This package contains service classes responsible for
- * handling business logic related to user management,
- * including creation, update, deletion of users,
- * login verification, and validation of unique identifiers.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.usuario.service;
 
 import java.util.List;
@@ -23,7 +15,7 @@ import co.edu.unbosque.usuario.repository.UsuarioRepository;
  * handles business logic such as login validation and 
  * checking for duplicate identification numbers (cedula).
  * 
- * Author: Wilmer Ramos
+ * @author Wilmer Ramos
  */
 @Service
 public class UsuarioService implements CRUDOperations<Usuario> {

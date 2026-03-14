@@ -1,10 +1,3 @@
-/**
- * This package contains model classes (entities) used for
- * the sales management system. These classes map to database
- * tables using JPA annotations.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.venta.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -25,7 +18,7 @@ import jakarta.persistence.Table;
  * Each DetalleVenta is associated with a Venta and contains
  * product, quantity, and pricing information.
  * 
- * Author: Wilmer Ramos
+ * @author Wilmer Ramos
  */
 @Entity
 @Table(name = "detalle_ventas")

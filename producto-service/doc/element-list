@@ -1,0 +1,5 @@
+co.edu.unbosque.producto
+co.edu.unbosque.producto.controller
+co.edu.unbosque.producto.model
+co.edu.unbosque.producto.repository
+co.edu.unbosque.producto.service

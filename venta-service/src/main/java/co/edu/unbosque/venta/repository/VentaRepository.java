@@ -1,11 +1,3 @@
-/**
- * This package contains repository interfaces responsible for
- * data access operations related to the Venta entity.
- * These repositories interact directly with the database
- * using Spring Data JPA.
- * 
- * @author Wilmer Ramos
- */
 package co.edu.unbosque.venta.repository;
 
 import java.util.Optional;

@@ -1,10 +1,3 @@
-/**
- * Repository interface for managing Proveedor entities.
- * 
- * Provides CRUD operations through JpaRepository and custom queries for Proveedor.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.proveedor.repository;
 
 import java.util.Optional;
@@ -19,6 +12,8 @@ import co.edu.unbosque.proveedor.model.Proveedor;
  * Extends JpaRepository to provide basic CRUD operations and query methods.
  * - Entity type: Proveedor
  * - Primary key type: Long
+ * 
+ * @author Wilmer Ramos
  */
 public interface ProveedorRepository extends JpaRepository<Proveedor, Long> {
     

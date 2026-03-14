@@ -1,9 +1,3 @@
-/**
- * Service class for managing Proveedor entities.
- * Implements CRUD operations and ensures unique NIT (tax ID) per provider.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.proveedor.service;
 
 import java.util.List;
@@ -15,6 +9,17 @@ import org.springframework.stereotype.Service;
 import co.edu.unbosque.proveedor.model.Proveedor;
 import co.edu.unbosque.proveedor.repository.ProveedorRepository;
 
+/**
+ * Service class for managing Proveedor entities.
+ * Implements the CRUDOperations interface to provide
+ * create, read, update, and delete functionality for suppliers.
+ * 
+ * This class acts as the business logic layer between
+ * the ProveedorController and the ProveedorRepository,
+ * ensuring proper handling of supplier data.
+ * 
+ * @author Wilmer Ramos
+ */
 @Service
 public class ProveedorService implements CRUDOperations<Proveedor> {
     

@@ -1,10 +1,3 @@
-/**
- * Package containing security filters for the API Gateway.
- * These filters handle authentication and authorization logic
- * using JWT tokens to protect API endpoints.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.gateway.filter;
 
 import java.util.Arrays;
@@ -25,7 +18,7 @@ import reactor.core.publisher.Mono;
  * Intercepts all incoming requests, validates JWT tokens,
  * and enforces role-based access control for protected routes.
  * 
- * Author: Wilmer Ramos
+ * @author Wilmer Ramos
  */
 @Component
 @Order(1)
@@ -52,7 +45,7 @@ public class JwtAuthenticationFilter implements GlobalFilter {
      *
      * @param exchange ServerWebExchange representing the HTTP request/response
      * @param chain GatewayFilterChain to continue request processing
-     * @return Mono<Void> indicating completion of the filter
+     * @return {@code Mono<Void>} indicating completion of the filter
      */
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, org.springframework.cloud.gateway.filter.GatewayFilterChain chain) {

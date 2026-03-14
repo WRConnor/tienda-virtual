@@ -1,10 +1,3 @@
-/**
- * This package contains repository interfaces responsible for
- * managing database access operations related to sales entities.
- * It uses Spring Data JPA to simplify CRUD operations.
- * 
- * @author Wilmer Ramos
- */
 package co.edu.unbosque.venta.repository;
 
 import java.util.Optional;

@@ -1,9 +1,3 @@
-/**
- * This package contains Feign client interfaces used for
- * communication with external microservices in the sales system.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.venta.feign;
 
 import java.util.Map;
@@ -17,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  * 
  * Provides methods to retrieve product information using product codes.
  * 
- * Author: Wilmer Ramos
+ * @author Wilmer Ramos
  */
 @FeignClient(name = "producto-service")  
 public interface ProductoClient {

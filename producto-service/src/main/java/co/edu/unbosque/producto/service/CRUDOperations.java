@@ -61,7 +61,6 @@ public interface CRUDOperations<T> {
      * This method reads the CSV file, parses its content,
      * and stores the products into the database.
      *
-     *@author Santiago Toyo
      * @param archivoCSV InputStream representing the CSV file
      * @return String message indicating success or failure
      * @throws IOException if an error occurs while reading the file

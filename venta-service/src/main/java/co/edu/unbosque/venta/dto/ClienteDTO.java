@@ -1,17 +1,10 @@
-/**
- * This package contains Data Transfer Objects (DTOs) used
- * for transferring data between layers and microservices
- * in the sales management system.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.venta.dto;
 
 /**
  * Data Transfer Object representing a client (Cliente).
  * Used for sending client data between microservices and layers.
  * 
- * Author: Wilmer Ramos
+ * @author Wilmer Ramos
  */
 public class ClienteDTO {
 

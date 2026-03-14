@@ -1,10 +1,3 @@
-/**
- * Package containing configuration classes for the API Gateway.
- * These classes define custom routes and routing logic to 
- * forward requests to the appropriate microservices.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.gateway.config;
 
 import org.springframework.cloud.gateway.route.RouteLocator;
@@ -12,14 +5,15 @@ import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+
+@Configuration
 /**
  * Configuration class for the API Gateway.
  * Defines route mappings between incoming API requests
  * and the corresponding microservices using Spring Cloud Gateway.
  * 
- * Author: Wilmer Ramos
+ * @author Wilmer Ramos
  */
-@Configuration
 public class GatewayConfiguration {
 
     /**

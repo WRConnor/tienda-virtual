@@ -1,10 +1,3 @@
-/**
- * Package containing repository interfaces for product entities.
- * These repositories provide CRUD operations and custom queries
- * for managing products in the database using Spring Data JPA.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.producto.repository;
 
 import java.util.List;
@@ -19,7 +12,7 @@ import co.edu.unbosque.producto.model.Producto;
  * Extends JpaRepository to provide standard CRUD operations
  * and defines custom query methods for product management.
  * 
- * Author: Wilmer Ramos
+ * @author Wilmer Ramos, Santiago Toyo
  */
 public interface ProductoRepository extends JpaRepository<Producto, Long> {
 

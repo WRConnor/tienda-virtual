@@ -1,9 +1,3 @@
-/**
- * This package contains repository interfaces responsible for
- * data persistence operations related to user management.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.usuario.repository;
 
 import java.util.Optional;
@@ -17,7 +11,7 @@ import co.edu.unbosque.usuario.model.Usuario;
  * Extends JpaRepository to provide CRUD operations and
  * defines custom query methods specific to user requirements.
  * 
- * Author: Wilmer Ramos
+ * @author Wilmer Ramos
  */
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 

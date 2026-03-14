@@ -1,10 +1,3 @@
-/**
- * This package contains Data Transfer Objects (DTOs) used
- * for transferring data between layers and microservices
- * in the sales management system.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.venta.dto;
 
 import java.util.List;
@@ -13,7 +6,7 @@ import java.util.List;
  * Data Transfer Object representing an invoice (Factura).
  * Combines client information, sale details, and totals for a sale.
  * 
- * Author: Santiago Rada
+ * @author Santiago Rada
  */
 public class FacturaDTO {
 

@@ -1,8 +1,9 @@
 /**
- * Contains service-layer classes for client management.
- * These services implement business logic and coordinate
- * persistence operations for the {@code Cliente} entity.
- *
+ * Package containing service classes for client management.
+ * These classes implement the business logic and operations 
+ * related to clients, acting as an intermediary between 
+ * controllers and repositories.
+ * 
  * @author Wilmer Ramos
  */
 package co.edu.unbosque.cliente.service;

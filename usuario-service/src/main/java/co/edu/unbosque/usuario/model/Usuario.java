@@ -1,10 +1,3 @@
-/**
- * This package contains entity classes responsible for
- * representing the data model of users in the application,
- * mapping them to the corresponding database tables.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.usuario.model;
 
 import jakarta.persistence.Column;
@@ -20,7 +13,7 @@ import jakarta.persistence.Table;
  * contains all necessary fields for user management,
  * including credentials and role.
  * 
- * Author: Wilmer Ramos
+ * @author Wilmer Ramos
  */
 @Entity
 @Table(name="usuarios")

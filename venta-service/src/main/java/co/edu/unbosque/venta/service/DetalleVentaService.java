@@ -1,10 +1,3 @@
-/**
- * This package contains service classes responsible for
- * handling business logic related to sales details management,
- * including CRUD operations for DetalleVenta entities.
- * 
- * @author Wilmer Ramos
- */
 package co.edu.unbosque.venta.service;
 
 import java.util.List;

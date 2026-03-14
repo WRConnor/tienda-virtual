@@ -1,10 +1,3 @@
-/**
- * Package containing repository interfaces for client entities.
- * These repositories provide CRUD operations and custom queries
- * for managing clients in the database using Spring Data JPA.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.cliente.repository;
 
 import java.util.Optional;
@@ -18,7 +11,7 @@ import co.edu.unbosque.cliente.model.Cliente;
  * Extends JpaRepository to provide standard CRUD operations
  * and defines custom query methods for client management.
  * 
- * Author: Wilmer Ramos
+ * @author Wilmer Ramos
  */
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     

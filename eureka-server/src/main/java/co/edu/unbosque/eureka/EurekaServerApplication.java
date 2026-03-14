@@ -1,10 +1,3 @@
-/**
- * Package containing the main entry point for the Eureka Server application.
- * This package initializes and configures the Spring Boot application
- * responsible for service discovery in a microservices architecture.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.eureka;
 
 import org.springframework.boot.SpringApplication;
@@ -17,7 +10,7 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
  * the Eureka Server, which acts as a service registry for 
  * microservices to register and discover each other.
  * 
- * Author: Wilmer Ramos
+ * @author Wilmer Ramos
  */
 @SpringBootApplication
 @EnableEurekaServer

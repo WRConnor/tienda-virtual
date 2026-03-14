@@ -1,9 +1,3 @@
-/**
- * This package contains REST controllers for managing sale details (DetalleVenta)
- * and related operations in the sales management system.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.venta.controller;
 
 import java.util.List;
@@ -29,7 +23,7 @@ import co.edu.unbosque.venta.service.DetalleVentaService;
  * REST controller for handling sale details (DetalleVenta) endpoints.
  * Provides CRUD operations for sale details.
  * 
- * Author: Wilmer Ramos
+ * @author Wilmer Ramos
  */
 @RestController
 @RequestMapping("/api/detalles-venta")

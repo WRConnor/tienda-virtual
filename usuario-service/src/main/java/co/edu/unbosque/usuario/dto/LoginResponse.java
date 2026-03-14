@@ -1,17 +1,10 @@
-/**
- * This package contains Data Transfer Object (DTO) classes
- * responsible for transferring data between layers of the
- * application, particularly for user authentication and login responses.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.usuario.dto;
 
 /**
  * DTO class representing the response returned after a successful login.
  * It contains the JWT token, user role, username, and identification number (cedula).
  * 
- * Author: Wilmer Ramos
+ * @author Wilmer Ramos
  */
 public class LoginResponse {
 
