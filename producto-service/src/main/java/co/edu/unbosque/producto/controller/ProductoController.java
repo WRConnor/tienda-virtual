@@ -1,10 +1,3 @@
-/**
- * Package containing REST controllers for product management.
- * These controllers expose endpoints to handle CRUD operations
- * and additional functionalities such as CSV upload for products.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.producto.controller;
 
 import java.io.IOException;
@@ -34,7 +27,7 @@ import co.edu.unbosque.producto.service.ProductoService;
  * Provides endpoints for creating, updating, deleting,
  * retrieving, and bulk uploading products.
  * 
- * Author: Wilmer Ramos
+ * @author Wilmer Ramos, Santiago Toyo
  */
 @RestController
 @RequestMapping("/api/productos")

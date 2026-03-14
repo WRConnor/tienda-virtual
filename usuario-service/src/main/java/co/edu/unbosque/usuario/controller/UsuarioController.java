@@ -1,9 +1,3 @@
-/**
- * This package contains REST controllers for managing users (usuarios)
- * and related authentication operations in the user management system.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.usuario.controller;
 
 import java.util.List;
@@ -33,7 +27,7 @@ import co.edu.unbosque.usuario.service.UsuarioService;
  * REST controller for handling users (Usuarios) endpoints.
  * Provides CRUD operations and login/authentication using JWT.
  * 
- * Author: Wilmer Ramos
+ * @author Wilmer Ramos
  */
 @RestController
 @RequestMapping("/api/usuarios")

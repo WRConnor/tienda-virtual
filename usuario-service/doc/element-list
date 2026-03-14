@@ -1,0 +1,6 @@
+co.edu.unbosque.usuario
+co.edu.unbosque.usuario.controller
+co.edu.unbosque.usuario.dto
+co.edu.unbosque.usuario.model
+co.edu.unbosque.usuario.repository
+co.edu.unbosque.usuario.service

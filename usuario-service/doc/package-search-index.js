@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"co.edu.unbosque.usuario"},{"l":"co.edu.unbosque.usuario.controller"},{"l":"co.edu.unbosque.usuario.dto"},{"l":"co.edu.unbosque.usuario.model"},{"l":"co.edu.unbosque.usuario.repository"},{"l":"co.edu.unbosque.usuario.service"}];updateSearchResults();

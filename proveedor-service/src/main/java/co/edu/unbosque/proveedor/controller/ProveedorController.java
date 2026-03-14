@@ -1,9 +1,3 @@
-/**
- * REST controller for managing Proveedor entities (suppliers/providers).
- * Provides CRUD operations and communicates with ProveedorService.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.proveedor.controller;
 
 import java.util.List;
@@ -25,6 +19,17 @@ import org.springframework.web.bind.annotation.RestController;
 import co.edu.unbosque.proveedor.model.Proveedor;
 import co.edu.unbosque.proveedor.service.ProveedorService;
 
+/**
+ * REST controller for managing Proveedor entities.
+ * Provides endpoints for creating, updating, deleting,
+ * and retrieving suppliers in the system.
+ * 
+ * This controller acts as the entry point for HTTP requests
+ * related to suppliers and delegates business logic to the
+ * corresponding service layer.
+ * 
+ * @author Wilmer Ramos
+ */
 
 
 @RestController

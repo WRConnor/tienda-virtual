@@ -1,9 +1,3 @@
-/**
- * This package contains Feign client interfaces used for
- * communication with external microservices in the sales system.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.venta.feign;
 
 import java.util.Map;
@@ -17,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
  * 
  * Provides methods to retrieve client information using client identification numbers (cedula).
  * 
- * Author: Wilmer Ramos
+ * @author Wilmer Ramos
  */
 @FeignClient(name = "cliente-service") 
 public interface ClienteClient {

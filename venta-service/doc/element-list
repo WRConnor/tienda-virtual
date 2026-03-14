@@ -1,0 +1,7 @@
+co.edu.unbosque.venta
+co.edu.unbosque.venta.controller
+co.edu.unbosque.venta.dto
+co.edu.unbosque.venta.feign
+co.edu.unbosque.venta.model
+co.edu.unbosque.venta.repository
+co.edu.unbosque.venta.service

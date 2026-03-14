@@ -1,10 +1,3 @@
-/**
- * Package containing the main entry point for the API Gateway application.
- * This package initializes and configures the Spring Boot application
- * responsible for routing and securing requests across microservices.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.gateway;
 
 import org.springframework.boot.SpringApplication;
@@ -18,7 +11,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * The API Gateway acts as a single entry point for client requests,
  * handling routing, filtering, and security.
  * 
- * Author: Wilmer Ramos
+ * @author Wilmer Ramos
  */
 @SpringBootApplication
 @EnableDiscoveryClient

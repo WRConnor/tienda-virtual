@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"co.edu.unbosque.venta"},{"l":"co.edu.unbosque.venta.controller"},{"l":"co.edu.unbosque.venta.dto"},{"l":"co.edu.unbosque.venta.feign"},{"l":"co.edu.unbosque.venta.model"},{"l":"co.edu.unbosque.venta.repository"},{"l":"co.edu.unbosque.venta.service"}];updateSearchResults();

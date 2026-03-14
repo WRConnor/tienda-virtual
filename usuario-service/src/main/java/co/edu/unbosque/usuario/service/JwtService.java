@@ -1,11 +1,3 @@
-/**
- * This package contains service classes responsible for
- * handling user authentication and authorization,
- * including generation and validation of JWT (JSON Web Tokens)
- * for secure access to application endpoints.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.usuario.service;
 
 import java.util.Date;
@@ -24,7 +16,7 @@ import io.jsonwebtoken.security.Keys;
  * It provides methods for generating tokens, extracting information
  * from tokens, and validating token integrity and expiration.
  * 
- * Author: Wilmer Ramos
+ * @author Wilmer Ramos
  */
 @Service
 public class JwtService {

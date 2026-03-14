@@ -1,9 +1,3 @@
-/**
- * Service class for managing Producto entities.
- * Implements CRUD operations and provides CSV import functionality.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.producto.service;
 
 import java.io.BufferedReader;
@@ -27,7 +21,7 @@ import co.edu.unbosque.producto.repository.ProductoRepository;
  * business logic such as loading products from CSV files, validating
  * products by provider, and updating product information.
  * 
- * Author: Wilmer Ramos
+ * @author Wilmer Ramos
  */
 @Service
 public class ProductoService implements CRUDOperations<Producto> {
@@ -51,7 +45,6 @@ public class ProductoService implements CRUDOperations<Producto> {
      * Loads Productos from a CSV input stream.
      * Expects each line in the CSV to contain: codigo,nombre,nitProveedor,precioCompra,precioVenta,ivaCompra
      *
-     *@Author Santiago Toyo
      * @param archivoCSV InputStream of the CSV file
      * @return Status message indicating success or type of error
      * @throws IOException if reading the input stream fails

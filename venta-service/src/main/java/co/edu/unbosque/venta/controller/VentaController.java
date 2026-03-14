@@ -1,9 +1,3 @@
-/**
- * This package contains REST controllers for managing sales (ventas)
- * and related operations in the sales management system.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.venta.controller;
 
 import java.util.HashMap;
@@ -34,7 +28,7 @@ import co.edu.unbosque.venta.service.VentaService;
  * REST controller for handling sales (Ventas) endpoints.
  * Provides CRUD operations, reporting, and invoice retrieval.
  * 
- * Author: Wilmer Ramos
+ * @author Wilmer Ramos
  */
 @RestController
 @RequestMapping("/api/ventas")

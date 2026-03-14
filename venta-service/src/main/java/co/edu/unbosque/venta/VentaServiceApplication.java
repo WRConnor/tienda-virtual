@@ -1,10 +1,3 @@
-/**
- * This package contains the main entry point for the Venta microservice.
- * It configures the application as a Spring Boot service, enables
- * service discovery, and allows Feign clients for inter-service communication.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.venta;
 
 import org.springframework.boot.SpringApplication;
@@ -20,7 +13,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  *  - Enables service discovery with @EnableDiscoveryClient.
  *  - Enables Feign clients in the specified package for inter-service calls.
  * 
- * Author: Wilmer Ramos
+ * @author Wilmer Ramos
  */
 @SpringBootApplication
 @EnableDiscoveryClient

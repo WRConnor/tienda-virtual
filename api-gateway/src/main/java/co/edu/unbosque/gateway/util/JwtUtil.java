@@ -21,7 +21,7 @@ import io.jsonwebtoken.security.Keys;
  * Provides methods to extract user information, roles, and 
  * validate tokens using a secret key.
  * 
- * Author: Wilmer Ramos
+ * @author Wilmer Ramos
  */
 @Component
 public class JwtUtil {

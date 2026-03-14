@@ -1,9 +1,3 @@
-/**
- * Entity class representing a Proveedor (supplier/provider).
- * Maps to the "proveedor" table in the database.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.proveedor.model;
 
 import jakarta.persistence.Column;
@@ -12,6 +6,17 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
+/**
+ * Entity class representing a supplier (Proveedor).
+ * This class maps to the "proveedor" table in the database
+ * and contains attributes related to supplier information.
+ * 
+ * It is managed by JPA/Hibernate and used in the persistence layer
+ * to store and retrieve supplier data.
+ * 
+ * @author Wilmer Ramos
+ */
 
 @Entity
 @Table(name = "proveedor")

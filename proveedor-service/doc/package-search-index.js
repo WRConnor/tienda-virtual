@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"co.edu.unbosque.proveedor"},{"l":"co.edu.unbosque.proveedor.controller"},{"l":"co.edu.unbosque.proveedor.model"},{"l":"co.edu.unbosque.proveedor.repository"},{"l":"co.edu.unbosque.proveedor.service"}];updateSearchResults();

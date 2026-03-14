@@ -1,10 +1,3 @@
-/**
- * This package contains model classes (entities) used for
- * the sales management system. These classes map to database
- * tables using JPA annotations.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.venta.model;
 
 import java.util.List;
@@ -26,7 +19,7 @@ import jakarta.persistence.Table;
  * The class includes basic fields like client, user, total values,
  * and a list of sale details.
  * 
- * Author: Wilmer Ramos
+ * @author Wilmer Ramos
  */
 @Entity
 @Table(name="ventas")

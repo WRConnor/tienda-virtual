@@ -1,10 +1,3 @@
-/**
- * Package containing the entity classes related to products.
- * These classes define the mapping between Java objects and 
- * the "productos" table in the database using JPA annotations.
- * 
- * Author: Wilmer Ramos
- */
 package co.edu.unbosque.producto.model;
 
 import jakarta.persistence.Column;
@@ -18,7 +11,7 @@ import jakarta.persistence.Table;
  * Entity class representing a Producto (product).
  * Maps to the "productos" table in the database.
  * 
- * Author: Wilmer Ramos
+ * @author Wilmer Ramos
  */
 @Entity
 @Table(name = "productos")
