@@ -19,10 +19,10 @@ function Proveedor() {
     cargarProveedores();
   }, []);
 
-  // 💻 Cargar proveedores desde API
+  // Cargar proveedores desde API
   const cargarProveedores = async () => {
     try {
-      const data = await api.getProveedores(); // NO pasamos token
+      const data = await api.getProveedores();
       setProveedores(data && data.length ? data : []);
     } catch (err) {
       console.error(err);
@@ -31,7 +31,7 @@ function Proveedor() {
     }
   };
 
-  // 🔄 Manejo de formulario
+  // Manejo de formulario
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -45,7 +45,7 @@ function Proveedor() {
       telefono: ""
     });
 
-  // ➕ Crear proveedor
+  // Crear proveedor
   const crearProveedor = async () => {
     if (!form.nit || !form.nombre || !form.direccion || !form.ciudad || !form.telefono) {
       alert("Faltan datos");
@@ -70,7 +70,7 @@ function Proveedor() {
     }
   };
 
-  // ✏️ Actualizar proveedor
+  // Actualizar proveedor
   const actualizarProveedor = async () => {
     if (!form.idProveedor) {
       alert("Primero debes consultar o seleccionar un proveedor");
@@ -95,7 +95,7 @@ function Proveedor() {
     }
   };
 
-  // ❌ Borrar proveedor
+  // Borrar proveedor
   const borrarProveedor = async () => {
     const proveedorEncontrado = proveedores.find(
       (p) => String(p.nitProveedor) === String(form.nit)
@@ -117,9 +117,9 @@ function Proveedor() {
     }
   };
 
-  // 🔹 Seleccionar proveedor de la tabla
+  // Seleccionar proveedor de la tabla
   const seleccionarProveedor = (p) => {
-  console.log("Proveedor seleccionado:", p); // <--- verifica ID
+  console.log("Proveedor seleccionado:", p);
   setForm({
     idProveedor: p.idProveedor,
     nit: safeString(p.nitProveedor),
@@ -130,7 +130,7 @@ function Proveedor() {
   });
 };
 
-  // 🔍 Consultar proveedor por NIT
+  // Consultar proveedor por NIT
   const consultarProveedor = () => {
     const p = proveedores.find(
       (p) => String(p.nitProveedor) === String(form.nit)

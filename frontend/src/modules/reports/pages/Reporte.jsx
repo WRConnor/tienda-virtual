@@ -11,22 +11,22 @@ function Reporte() {
   const vistas = {
     dashboard: {
       nombre: "Dashboard",
-      icono: "📊",
+      icono: "",
       componente: <ConsultasDashboard />
     },
     usuarios: {
       nombre: "Usuarios",
-      icono: "👤",
+      icono: "",
       componente: <ListadoUsuarios />
     },
     clientes: {
       nombre: "Clientes",
-      icono: "🧑‍💼",
+      icono: "",
       componente: <ListadoClientes />
     },
     ventas: {
       nombre: "Ventas por Cliente",
-      icono: "💰",
+      icono: "",
       componente: <VentasPorCliente />
     }
   };

@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { useAuth } from "../../auth/context/authContext"; // 🔹 importamos el contexto
+import { useAuth } from "../../auth/context/authContext";
 import { apiVentas } from "../../../api/api";
 import jsPDF from "jspdf";
 import "../styles/Venta.css";
@@ -17,7 +17,7 @@ function Venta() {
   const [ventaConfirmada, setVentaConfirmada] = useState(null);
   const [mostrarFactura, setMostrarFactura] = useState(false);
 
-  // 🔹 obtenemos el usuario logueado del contexto
+  // obtenemos el usuario logueado del contexto
   const { user } = useAuth();
 
   const cedulaUsuario = user?.cedula;
@@ -107,7 +107,7 @@ function Venta() {
   
 
   const totalizar = async () => {
-    // 🔹 usamos el contexto en lugar de localStorage
+    // usamos el contexto en lugar de localStorage
     if (!cedulaUsuario || !usuarioLogueado)
       return alert("No se pudo obtener la cédula del usuario logueado");
 
@@ -135,7 +135,7 @@ function Venta() {
     try {
       const ventaGuardada = await apiVentas.crearVenta(venta);
       setVentaConfirmada({
-        ...ventaGuardada,   // 🔹 usa directamente la venta devuelta
+        ...ventaGuardada,
         fecha: new Date().toLocaleString(),
         cliente: clienteEncontrado,
         usuario: usuarioLogueado,

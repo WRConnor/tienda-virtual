@@ -23,10 +23,10 @@ function Login() {
     // Redirigir a la "interfaz principal" según rol
     switch (res.rol) {
       case "ADMIN":
-        navigate("/admin"); // aquí puedes renderizar <AdminPanel />
+        navigate("/admin");
         break;
       case "CLIENTE":
-        navigate("/cliente"); // <ClientePanel /> limitado
+        navigate("/cliente");
         break;
       case "CAJERO":
         navigate("/ventas");
@@ -66,15 +66,6 @@ function Login() {
 
       console.log(response);
 
-      /*
-      backend retorna:
-
-      {
-        token: "...",
-        rol: "ADMIN",
-        usuario: "juanito"
-      }
-      */
 
       const { token, rol, usuario, cedula } = response;
 

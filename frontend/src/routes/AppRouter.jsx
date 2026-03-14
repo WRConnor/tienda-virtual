@@ -8,7 +8,7 @@ import Usuario from "../modules/users/pages/Usuario";
 import Cliente from "../modules/clients/pages/Cliente";
 import Proveedor from "../modules/suppliers/pages/Proveedor";
 import Producto from "../modules/products/pages/Producto";
-import Ventas from "../modules/sales/pages/Ventas";
+import Ventas from "../modules/sales/pages/ventas";
 import Reporte from "../modules/reports/pages/Reporte";
 
 function AppRouter() {
