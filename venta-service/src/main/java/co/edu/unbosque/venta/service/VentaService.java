@@ -1,3 +1,11 @@
+/**
+ * This package contains service classes responsible for
+ * handling business logic related to sales management,
+ * including creation of sales, interaction with external
+ * services, and generation of sales reports and invoices.
+ * 
+ * @author Wilmer Ramos
+ */
 package co.edu.unbosque.venta.service;
 
 import java.util.ArrayList;
@@ -21,22 +29,41 @@ import co.edu.unbosque.venta.model.Venta;
 import co.edu.unbosque.venta.repository.DetalleVentaRepository;
 import co.edu.unbosque.venta.repository.VentaRepository;
 
+/**
+ * Service class responsible for managing sales operations.
+ * It implements CRUD operations for the Venta entity and
+ * handles business logic such as calculating totals, retrieving
+ * product and client information, generating invoices and reports.
+ * 
+ * @author Wilmer Ramos
+ */
 @Service
 @Transactional
 public class VentaService implements CRUDOperations<Venta> {
 
+    /** Repository used to manage Venta persistence operations */
     @Autowired
     VentaRepository ventaRepo;
 
+    /** Repository used to manage DetalleVenta persistence operations */
     @Autowired
     DetalleVentaRepository detalleRepo;
 
+    /** Feign client used to communicate with the Cliente microservice */
     @Autowired
     ClienteClient clienteCli;
 
+    /** Feign client used to communicate with the Producto microservice */
     @Autowired
     ProductoClient productoCli;
 
+    /**
+     * Creates a new sale and calculates all financial values
+     * such as subtotal, VAT (IVA), and total.
+     *
+     * @param o Venta object containing the sale information
+     * @return 0 if the sale is successfully created
+     */
     @Override
 	public int crear(Venta o) {
 
@@ -70,7 +97,6 @@ public class VentaService implements CRUDOperations<Venta> {
 		o.setIvaVenta(acumuladoIva);
 		o.setTotalVenta(acumuladoTotal);
 
-		// 🔹 GENERAR CODIGO DE VENTA AUTOMÁTICO
 		Integer maxCodigo = ventaRepo.obtenerMaxCodigoVenta();
 
 		Long nuevoCodigo = 1L;
@@ -81,12 +107,17 @@ public class VentaService implements CRUDOperations<Venta> {
 
 		o.setCodigoVenta(nuevoCodigo);
 
-		// 🔹 GUARDAR VENTA
 		ventaRepo.save(o);
 
 		return 0;
 	}
 
+    /**
+     * Deletes a sale by its ID.
+     *
+     * @param in ID of the sale to delete
+     * @return 0 if deletion was successful, 1 if the sale does not exist
+     */
     @Override
     public int eliminar(Long in) {
         if (ventaRepo.existsById(in)) {
@@ -97,11 +128,23 @@ public class VentaService implements CRUDOperations<Venta> {
         }
     }
 
+    /**
+     * Retrieves all sales stored in the database.
+     *
+     * @return list of Venta objects
+     */
     @Override
     public List<Venta> mostrarTodo() {
         return ventaRepo.findAll();
     }
 
+    /**
+     * Updates an existing sale and its detail list.
+     *
+     * @param id ID of the sale to update
+     * @param nuevaData new sale data
+     * @return 0 if update was successful, 2 if the sale does not exist
+     */
     @Override
     public int actualizar(Long id, Venta nuevaData) {
 
@@ -131,11 +174,23 @@ public class VentaService implements CRUDOperations<Venta> {
         return 2;
     }
 
+    /**
+     * Finds a sale by its ID.
+     *
+     * @param id ID of the sale
+     * @return Optional containing the sale if found
+     */
     @Override
     public Optional<Venta> buscarPorId(Long id) {
         return ventaRepo.findById(id);
     }
 
+    /**
+     * Retrieves client information from the Cliente microservice.
+     *
+     * @param cedula client identification number
+     * @return ClienteDTO containing client information
+     */
     public ClienteDTO obtenerClientePorCedula(Long cedula) {
 
         Map<String, Object> response = clienteCli.obtenerClientePorCedula(cedula);
@@ -151,25 +206,36 @@ public class VentaService implements CRUDOperations<Venta> {
         return clienteDTO;
     }
 
+    /**
+     * Retrieves product information from the Producto microservice.
+     *
+     * @param codigo product code
+     * @return ProductoDTO containing product information
+     */
     public ProductoDTO obtenerProductoPorCodigo(Long codigo) {
-    Map<String, Object> response = productoCli.obtenerProductoPorCodigo(codigo);
+        Map<String, Object> response = productoCli.obtenerProductoPorCodigo(codigo);
 
-    if (response == null || response.isEmpty()) {
-        return null;
+        if (response == null || response.isEmpty()) {
+            return null;
+        }
+
+        ProductoDTO dto = new ProductoDTO();
+        dto.setIdProducto(Long.valueOf(response.get("idProducto").toString()));
+        dto.setCodigoProducto(Long.valueOf(response.get("codigoProducto").toString()));
+        dto.setNombreProducto(response.get("nombreProducto").toString());
+        dto.setPrecioCompra(Double.valueOf(response.get("precioCompra").toString()));
+        dto.setPrecioVenta(Double.valueOf(response.get("precioVenta").toString()));
+        dto.setIvaCompra(Double.valueOf(response.get("ivaCompra").toString()));
+        dto.setNitProveedor(Long.valueOf(response.get("nitProveedor").toString()));
+
+        return dto;
     }
 
-    ProductoDTO dto = new ProductoDTO();
-    dto.setIdProducto(Long.valueOf(response.get("idProducto").toString()));
-    dto.setCodigoProducto(Long.valueOf(response.get("codigoProducto").toString()));
-    dto.setNombreProducto(response.get("nombreProducto").toString());
-    dto.setPrecioCompra(Double.valueOf(response.get("precioCompra").toString()));
-    dto.setPrecioVenta(Double.valueOf(response.get("precioVenta").toString()));
-    dto.setIvaCompra(Double.valueOf(response.get("ivaCompra").toString()));
-    dto.setNitProveedor(Long.valueOf(response.get("nitProveedor").toString()));
-
-    return dto;
-}
-
+    /**
+     * Generates a sales report grouped by client.
+     *
+     * @return list containing client sales summary
+     */
     public List<Map<String, Object>> generarReporteVentasPorCliente() {
 
         List<Venta> ventas = ventaRepo.findAll();
@@ -209,6 +275,12 @@ public class VentaService implements CRUDOperations<Venta> {
         return new ArrayList<>(reporteMap.values());
     }
 
+    /**
+     * Checks if a sale code already exists in the database.
+     *
+     * @param newVenta sale to verify
+     * @return true if the sale code already exists
+     */
     public boolean findTitleAlreadyTaken(Venta newVenta) {
 
         Optional<Venta> found = ventaRepo.findByCodigoVenta(newVenta.getCodigoVenta());
@@ -216,6 +288,13 @@ public class VentaService implements CRUDOperations<Venta> {
         return found.isPresent();
     }
 
+    /**
+     * Generates a complete invoice using the sale information,
+     * client data, and product details.
+     *
+     * @param codigoVenta sale code used to retrieve the invoice
+     * @return FacturaDTO containing the invoice information
+     */
 	public FacturaDTO obtenerFactura(Long codigoVenta){
 
 		Optional<Venta> ventaOpt = ventaRepo.findByCodigoVenta(codigoVenta);

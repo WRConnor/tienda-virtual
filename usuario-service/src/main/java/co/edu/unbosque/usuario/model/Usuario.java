@@ -1,3 +1,10 @@
+/**
+ * This package contains entity classes responsible for
+ * representing the data model of users in the application,
+ * mapping them to the corresponding database tables.
+ * 
+ * Author: Wilmer Ramos
+ */
 package co.edu.unbosque.usuario.model;
 
 import jakarta.persistence.Column;
@@ -7,52 +14,88 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-
+/**
+ * Entity class representing a user in the system.
+ * It maps to the "usuarios" table in the database and
+ * contains all necessary fields for user management,
+ * including credentials and role.
+ * 
+ * Author: Wilmer Ramos
+ */
 @Entity
 @Table(name="usuarios")
 public class Usuario {
-	
+
+    /** Primary key for the user entity */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
     private Long idUsuario;
-    
+
+    /** Unique identification number (cedula) of the user */
     @Column(name = "cedula_usuario")
     private Long cedulaUsuario;
 
+    /** Full name of the user */
     @Column(name = "nombre_usuario")
     private String nombreUsuario;
 
+    /** Email address of the user */
     @Column(name = "email_usuario")
     private String emailUsuario;
 
+    /** Username used for login */
     @Column(name = "usuario")
     private String usuario;
 
+    /** Password used for login */
     @Column(name = "password")
     private String password;
 
+    /** Role of the user (e.g., USER, ADMIN) */
     @Column(name = "rol")
     private String rol;
-    
+
+    /**
+     * Default constructor required by JPA.
+     */
     public Usuario() {
-		// TODO Auto-generated constructor stub
-	}
+        // Default constructor
+    }
 
-	public Usuario(Long cedulaUsuario, String nombreUsuario, String emailUsuario, String usuario, String password) {
-		super();
-		this.cedulaUsuario = cedulaUsuario;
-		this.nombreUsuario = nombreUsuario;
-		this.emailUsuario = emailUsuario;
-		this.usuario = usuario;
-		this.password = password;
-		this.rol = "USER";
-	}
+    /**
+     * Constructor to create a user with default role "USER".
+     *
+     * @param cedulaUsuario identification number of the user
+     * @param nombreUsuario full name of the user
+     * @param emailUsuario email address of the user
+     * @param usuario username for login
+     * @param password password for login
+     */
+    public Usuario(Long cedulaUsuario, String nombreUsuario, String emailUsuario, String usuario, String password) {
+        super();
+        this.cedulaUsuario = cedulaUsuario;
+        this.nombreUsuario = nombreUsuario;
+        this.emailUsuario = emailUsuario;
+        this.usuario = usuario;
+        this.password = password;
+        this.rol = "USER"; // default role
+    }
 
-	public Usuario(Long cedulaUsuario, String nombreUsuario, String emailUsuario, String usuario, String password, String rol) {
-		this(cedulaUsuario, nombreUsuario, emailUsuario, usuario, password);
-		this.rol = rol;
-	}
+    /**
+     * Constructor to create a user with a specific role.
+     *
+     * @param cedulaUsuario identification number of the user
+     * @param nombreUsuario full name of the user
+     * @param emailUsuario email address of the user
+     * @param usuario username for login
+     * @param password password for login
+     * @param rol role of the user
+     */
+    public Usuario(Long cedulaUsuario, String nombreUsuario, String emailUsuario, String usuario, String password, String rol) {
+        this(cedulaUsuario, nombreUsuario, emailUsuario, usuario, password);
+        this.rol = rol;
+    }
 
 	public Long getCedulaUsuario() {
 		return cedulaUsuario;

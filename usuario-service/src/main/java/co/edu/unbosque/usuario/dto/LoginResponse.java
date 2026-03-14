@@ -1,24 +1,54 @@
+/**
+ * This package contains Data Transfer Object (DTO) classes
+ * responsible for transferring data between layers of the
+ * application, particularly for user authentication and login responses.
+ * 
+ * Author: Wilmer Ramos
+ */
 package co.edu.unbosque.usuario.dto;
 
+/**
+ * DTO class representing the response returned after a successful login.
+ * It contains the JWT token, user role, username, and identification number (cedula).
+ * 
+ * Author: Wilmer Ramos
+ */
 public class LoginResponse {
-	
-	private String token;
-	private String rol;
-	private String usuario;
-	private Long cedula;
-	
-	
-	public LoginResponse() {
-		// TODO Auto-generated constructor stub
-	}
-	
-	public LoginResponse(String token, String rol, String usuario, Long cedula) {
-		super();
-		this.token = token;
-		this.rol = rol;
-		this.usuario = usuario;
-		this.cedula = cedula;
-	}
+
+    /** JWT token generated for the authenticated user */
+    private String token;
+
+    /** Role of the authenticated user (e.g., USER, ADMIN) */
+    private String rol;
+
+    /** Username of the authenticated user */
+    private String usuario;
+
+    /** Identification number (cedula) of the authenticated user */
+    private Long cedula;
+
+    /**
+     * Default constructor.
+     */
+    public LoginResponse() {
+        // Default constructor
+    }
+
+    /**
+     * Constructor to initialize all fields of the login response.
+     *
+     * @param token JWT token
+     * @param rol role of the user
+     * @param usuario username of the user
+     * @param cedula identification number of the user
+     */
+    public LoginResponse(String token, String rol, String usuario, Long cedula) {
+        super();
+        this.token = token;
+        this.rol = rol;
+        this.usuario = usuario;
+        this.cedula = cedula;
+    }
 
 	public String getToken() {
 		return token;

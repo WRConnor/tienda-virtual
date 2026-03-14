@@ -1,3 +1,10 @@
+/**
+ * Package containing the entity classes related to products.
+ * These classes define the mapping between Java objects and 
+ * the "productos" table in the database using JPA annotations.
+ * 
+ * Author: Wilmer Ramos
+ */
 package co.edu.unbosque.producto.model;
 
 import jakarta.persistence.Column;
@@ -7,103 +14,145 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * Entity class representing a Producto (product).
+ * Maps to the "productos" table in the database.
+ * 
+ * Author: Wilmer Ramos
+ */
 @Entity
 @Table(name = "productos")
 public class Producto {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_producto")
-	private Long idProducto;
+    /**
+     * Primary key for the Producto entity.
+     * Auto-generated using IDENTITY strategy.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_producto")
+    private Long idProducto;
 
-	@Column(name = "codigo_producto")
-	private Long codigoProducto;
+    /**
+     * Unique product code used to identify the product.
+     */
+    @Column(name = "codigo_producto")
+    private Long codigoProducto;
 
-	@Column(name = "nombre_producto")
-	private String nombreProducto;
+    /**
+     * Name of the product.
+     */
+    @Column(name = "nombre_producto")
+    private String nombreProducto;
 
-	@Column(name = "precio_compra")
-	private Double precioCompra;
+    /**
+     * Purchase price of the product.
+     */
+    @Column(name = "precio_compra")
+    private Double precioCompra;
 
-	@Column(name = "precio_venta")
-	private Double precioVenta;
+    /**
+     * Sale price of the product.
+     */
+    @Column(name = "precio_venta")
+    private Double precioVenta;
 
-	@Column(name = "ivacompra")
-	private Double ivaCompra;
+    /**
+     * Value-added tax (IVA) applied to the purchase.
+     */
+    @Column(name = "ivacompra")
+    private Double ivaCompra;
 
-	@Column(name = "nitproveedor")
-	private Long nitProveedor;
+    /**
+     * Tax identification number (NIT) of the supplier associated with the product.
+     */
+    @Column(name = "nitproveedor")
+    private Long nitProveedor;
 
-	public Producto() {
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     * Default constructor required by JPA.
+     */
+    public Producto() {
+        // Default constructor
+    }
 
-	public Producto(long codigoProducto, String nombreProducto, long nitProveedor,
-			double precioCompra, double ivaCompra, double precioVenta) {
+    /**
+     * Parameterized constructor to create a Producto instance with all fields except ID.
+     *
+     * @param codigoProducto Unique product code
+     * @param nombreProducto Name of the product
+     * @param nitProveedor Supplier's tax identification number
+     * @param precioCompra Purchase price
+     * @param ivaCompra Value-added tax applied to purchase
+     * @param precioVenta Sale price
+     */
+    public Producto(long codigoProducto, String nombreProducto, long nitProveedor,
+                    double precioCompra, double ivaCompra, double precioVenta) {
 
-		this.codigoProducto = codigoProducto;
-		this.nombreProducto = nombreProducto;
-		this.nitProveedor = nitProveedor;
-		this.precioCompra = precioCompra;
-		this.ivaCompra = ivaCompra;
-		this.precioVenta = precioVenta;
+        this.codigoProducto = codigoProducto;
+        this.nombreProducto = nombreProducto;
+        this.nitProveedor = nitProveedor;
+        this.precioCompra = precioCompra;
+        this.ivaCompra = ivaCompra;
+        this.precioVenta = precioVenta;
+    }
 
-	}
+    // --- Getters and Setters ---
 
-	public Long getCodigoProducto() {
-		return codigoProducto;
-	}
+    public Long getIdProducto() {
+        return idProducto;
+    }
 
-	public void setCodigoProducto(Long codigoProducto) {
-		this.codigoProducto = codigoProducto;
-	}
+    public void setIdProducto(Long idProducto) {
+        this.idProducto = idProducto;
+    }
 
-	public String getNombreProducto() {
-		return nombreProducto;
-	}
+    public Long getCodigoProducto() {
+        return codigoProducto;
+    }
 
-	public void setNombreProducto(String nombreProducto) {
-		this.nombreProducto = nombreProducto;
-	}
+    public void setCodigoProducto(Long codigoProducto) {
+        this.codigoProducto = codigoProducto;
+    }
 
-	public Double getPrecioCompra() {
-		return precioCompra;
-	}
+    public String getNombreProducto() {
+        return nombreProducto;
+    }
 
-	public void setPrecioCompra(Double precioCompra) {
-		this.precioCompra = precioCompra;
-	}
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
+    }
 
-	public Double getPrecioVenta() {
-		return precioVenta;
-	}
+    public Double getPrecioCompra() {
+        return precioCompra;
+    }
 
-	public void setPrecioVenta(Double precioVenta) {
-		this.precioVenta = precioVenta;
-	}
+    public void setPrecioCompra(Double precioCompra) {
+        this.precioCompra = precioCompra;
+    }
 
-	public Double getIvaCompra() {
-		return ivaCompra;
-	}
+    public Double getPrecioVenta() {
+        return precioVenta;
+    }
 
-	public void setIvaCompra(Double ivaCompra) {
-		this.ivaCompra = ivaCompra;
-	}
+    public void setPrecioVenta(Double precioVenta) {
+        this.precioVenta = precioVenta;
+    }
 
-	public Long getNitProveedor() {
-		return nitProveedor;
-	}
+    public Double getIvaCompra() {
+        return ivaCompra;
+    }
 
-	public void setNitProveedor(Long nitProveedor) {
-		this.nitProveedor = nitProveedor;
-	}
+    public void setIvaCompra(Double ivaCompra) {
+        this.ivaCompra = ivaCompra;
+    }
 
-	public Long getIdProducto() {
-		return idProducto;
-	}
+    public Long getNitProveedor() {
+        return nitProveedor;
+    }
 
-	public void setIdProducto(Long idProducto) {
-		this.idProducto = idProducto;
-	}
-
+    public void setNitProveedor(Long nitProveedor) {
+        this.nitProveedor = nitProveedor;
+    }
 }
+

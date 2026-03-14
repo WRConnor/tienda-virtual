@@ -1,3 +1,10 @@
+/**
+ * Package containing REST controllers for product management.
+ * These controllers expose endpoints to handle CRUD operations
+ * and additional functionalities such as CSV upload for products.
+ * 
+ * Author: Wilmer Ramos
+ */
 package co.edu.unbosque.producto.controller;
 
 import java.io.IOException;
@@ -22,75 +29,121 @@ import org.springframework.web.multipart.MultipartFile;
 import co.edu.unbosque.producto.model.Producto;
 import co.edu.unbosque.producto.service.ProductoService;
 
+/**
+ * REST controller for managing Producto entities.
+ * Provides endpoints for creating, updating, deleting,
+ * retrieving, and bulk uploading products.
+ * 
+ * Author: Wilmer Ramos
+ */
 @RestController
 @RequestMapping("/api/productos")
 @Transactional
 @CrossOrigin(origins = { "*", "localhost:8080" })
 public class ProductoController {
 
-	@Autowired
-	ProductoService productoServ;
+    @Autowired
+    ProductoService productoServ;
 
-	@PostMapping("/crear")
-	public ResponseEntity<String> crear(@RequestBody Producto c) {
-		productoServ.crear(c);
-		return new ResponseEntity<String>("Producto creado con exito", HttpStatus.CREATED);
-	}
+    /**
+     * Endpoint to create a new product.
+     *
+     * @param c Product object to be created
+     * @return ResponseEntity with success message and HTTP status
+     */
+    @PostMapping("/crear")
+    public ResponseEntity<String> crear(@RequestBody Producto c) {
+        productoServ.crear(c);
+        return new ResponseEntity<String>("Producto creado con exito", HttpStatus.CREATED);
+    }
 
-	@PostMapping("/cargarProductos")
-	public ResponseEntity<String> cargarProductos(@RequestParam("Examinar") MultipartFile archivoCSV)
-			throws IOException {
-		try {
-			productoServ.cargarCSVProductos(archivoCSV.getInputStream());
-			return new ResponseEntity<String>("Producto creado con exito", HttpStatus.CREATED);
-		} catch (IOException e) {
-			return new ResponseEntity<String>("Error al intentar leer el archivo", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
+    /**
+     * Endpoint to upload products from a CSV file.
+     *
+     * @param archivoCSV CSV file containing product data
+     * @return ResponseEntity with success or error message
+     * @throws IOException if file reading fails
+     */
+    @PostMapping("/cargarProductos")
+    public ResponseEntity<String> cargarProductos(@RequestParam("Examinar") MultipartFile archivoCSV)
+            throws IOException {
+        try {
+            productoServ.cargarCSVProductos(archivoCSV.getInputStream());
+            return new ResponseEntity<String>("Producto creado con exito", HttpStatus.CREATED);
+        } catch (IOException e) {
+            return new ResponseEntity<String>("Error al intentar leer el archivo", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
-	@DeleteMapping("/eliminar/{id}")
-	ResponseEntity<String> eliminar(@PathVariable Long id) {
-		int status = productoServ.eliminar(id);
+    /**
+     * Endpoint to delete a product by its ID.
+     *
+     * @param id Product ID
+     * @return ResponseEntity with success or error message
+     */
+    @DeleteMapping("/eliminar/{id}")
+    ResponseEntity<String> eliminar(@PathVariable Long id) {
+        int status = productoServ.eliminar(id);
 
-		if (status == 0) {
-			return new ResponseEntity<>("Producto eliminado con exito", HttpStatus.ACCEPTED);
-		} else {
-			return new ResponseEntity<>("Error, producto no existente", HttpStatus.NOT_FOUND);
-		}
-	}
+        if (status == 0) {
+            return new ResponseEntity<>("Producto eliminado con exito", HttpStatus.ACCEPTED);
+        } else {
+            return new ResponseEntity<>("Error, producto no existente", HttpStatus.NOT_FOUND);
+        }
+    }
 
-	@PutMapping(path = "/actualizar/{id}")
-	ResponseEntity<String> actualizar(@PathVariable Long id, @RequestBody Producto o) {
+    /**
+     * Endpoint to update an existing product by its ID.
+     *
+     * @param id Product ID
+     * @param o Updated product object
+     * @return ResponseEntity with success or error message
+     */
+    @PutMapping(path = "/actualizar/{id}")
+    ResponseEntity<String> actualizar(@PathVariable Long id, @RequestBody Producto o) {
 
-		int status = productoServ.actualizar(id, o);
+        int status = productoServ.actualizar(id, o);
 
-		if (status == 0) {
-			return new ResponseEntity<>("Producto actualizado con exito", HttpStatus.ACCEPTED);
-		} else if (status == 1) {
-			return new ResponseEntity<>("Producto no encontrado ", HttpStatus.NOT_FOUND);
-		} else {
-			return new ResponseEntity<>("Error al actualizar", HttpStatus.BAD_REQUEST);
-		}
-	}
+        if (status == 0) {
+            return new ResponseEntity<>("Producto actualizado con exito", HttpStatus.ACCEPTED);
+        } else if (status == 1) {
+            return new ResponseEntity<>("Producto no encontrado ", HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>("Error al actualizar", HttpStatus.BAD_REQUEST);
+        }
+    }
 
-	@GetMapping("/mostrartodo")
-	public ResponseEntity<List<Producto>> mostrarTodo() {
-		List<Producto> encontrado = productoServ.mostrarTodo();
-		if (encontrado.isEmpty()) {
-			return new ResponseEntity<>(encontrado, HttpStatus.NO_CONTENT);
-		} else {
-			return new ResponseEntity<>(encontrado, HttpStatus.ACCEPTED);
-		}
-	}
+    /**
+     * Endpoint to retrieve all products.
+     *
+     * @return ResponseEntity containing the list of products
+     */
+    @GetMapping("/mostrartodo")
+    public ResponseEntity<List<Producto>> mostrarTodo() {
+        List<Producto> encontrado = productoServ.mostrarTodo();
+        if (encontrado.isEmpty()) {
+            return new ResponseEntity<>(encontrado, HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(encontrado, HttpStatus.ACCEPTED);
+        }
+    }
 
-	@GetMapping("/buscarPorCodigo/{codigo}")
-	public ResponseEntity<Producto> obtenerPorCodigo(@PathVariable Long codigo) {
-		List<Producto> productos = productoServ.mostrarTodo();
-		for (Producto p : productos) {
-			if (p.getCodigoProducto().equals(codigo)) {
-				return ResponseEntity.ok(p);
-			}
-		}
-		return ResponseEntity.notFound().build();
-	}
+    /**
+     * Endpoint to find a product by its code.
+     *
+     * @param codigo Product code
+     * @return ResponseEntity containing the product if found, otherwise 404
+     */
+    @GetMapping("/buscarPorCodigo/{codigo}")
+    public ResponseEntity<Producto> obtenerPorCodigo(@PathVariable Long codigo) {
+        List<Producto> productos = productoServ.mostrarTodo();
+        for (Producto p : productos) {
+            if (p.getCodigoProducto().equals(codigo)) {
+                return ResponseEntity.ok(p);
+            }
+        }
+        return ResponseEntity.notFound().build();
+    }
 }
+
+

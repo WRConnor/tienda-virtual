@@ -1,3 +1,10 @@
+/**
+ * Package containing the entity classes related to clients.
+ * These classes define the mapping between Java objects and 
+ * the "cliente" table in the database using JPA annotations.
+ * 
+ * Author: Wilmer Ramos
+ */
 package co.edu.unbosque.cliente.model;
 
 import jakarta.persistence.Column;
@@ -7,10 +14,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ * JPA entity representing a client record stored in the
+ * {@code clientes} database table. Includes basic personal
+ * contact information.
+ *
+ * @author Wilmer Ramos
+ */
 @Entity
 @Table(name="clientes")
 public class Cliente {
-	
+    
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id_cliente")
     private Long idCliente;

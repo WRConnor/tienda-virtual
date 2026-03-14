@@ -1,3 +1,9 @@
+/**
+ * Service class for managing Proveedor entities.
+ * Implements CRUD operations and ensures unique NIT (tax ID) per provider.
+ * 
+ * Author: Wilmer Ramos
+ */
 package co.edu.unbosque.proveedor.service;
 
 import java.util.List;
@@ -11,68 +17,101 @@ import co.edu.unbosque.proveedor.repository.ProveedorRepository;
 
 @Service
 public class ProveedorService implements CRUDOperations<Proveedor> {
-	
-	@Autowired
-	ProveedorRepository proveedorRepo;
+    
+    @Autowired
+    ProveedorRepository proveedorRepo;
 
-	@Override
-	public int crear(Proveedor o) {
-		if(findTitleAlreadyTaken(o)) {
-			return 1;
-		}else {
-			proveedorRepo.save(o);
-			return 0;
-		}
-	}
+    /**
+     * Creates a new Proveedor.
+     *
+     * @param o the Proveedor object to create
+     * @return 0 if successful, 1 if a Proveedor with the same NIT already exists
+     */
+    @Override
+    public int crear(Proveedor o) {
+        if(findTitleAlreadyTaken(o)) {
+            // NIT duplicado
+            return 1;
+        } else {
+            proveedorRepo.save(o);
+            return 0;
+        }
+    }
 
-	@Override
-	public int eliminar(Long in) {
-		if(proveedorRepo.existsById(in)) {
-			proveedorRepo.deleteById(in);
-			return 0;
-		}else {
-			return 1;
-		}
-	}
+    /**
+     * Deletes a Proveedor by its ID.
+     *
+     * @param in the ID of the Proveedor to delete
+     * @return 0 if deleted successfully, 1 if the Proveedor does not exist
+     */
+    @Override
+    public int eliminar(Long in) {
+        if(proveedorRepo.existsById(in)) {
+            proveedorRepo.deleteById(in);
+            return 0;
+        } else {
+            return 1;
+        }
+    }
 
-	@Override
-	public List<Proveedor> mostrarTodo() {
-		return proveedorRepo.findAll();
-	}
+    /**
+     * Retrieves all Proveedor records.
+     *
+     * @return a List of all Proveedor objects
+     */
+    @Override
+    public List<Proveedor> mostrarTodo() {
+        return proveedorRepo.findAll();
+    }
 
-	@Override
-	public int actualizar(Long id, Proveedor nuevaData) {
-		Optional<Proveedor> found = proveedorRepo.findById(id);
-		Optional<Proveedor> newFound = proveedorRepo.findByNitProveedor(nuevaData.getNitProveedor());
+    /**
+     * Updates an existing Proveedor.
+     *
+     * @param id the ID of the Proveedor to update
+     * @param nuevaData the new data for the Proveedor
+     * @return 0 if updated successfully, 1 if NIT is duplicated, 2 if Proveedor not found
+     */
+    @Override
+    public int actualizar(Long id, Proveedor nuevaData) {
+        Optional<Proveedor> found = proveedorRepo.findById(id);
+        Optional<Proveedor> newFound = proveedorRepo.findByNitProveedor(nuevaData.getNitProveedor());
 
-		if (!found.isPresent()) return 2; // no encontrado
+        if (!found.isPresent()) return 2; // Proveedor no encontrado
 
-		// permite actualizar si el NIT es único o pertenece al mismo proveedor
-		if (newFound.isPresent() && !newFound.get().getIdProveedor().equals(id)) return 1; // NIT duplicado
+        // permite actualizar si el NIT es único o pertenece al mismo proveedor
+        if (newFound.isPresent() && !newFound.get().getIdProveedor().equals(id)) return 1; // NIT duplicado
 
-		Proveedor temp = found.get();
-		temp.setNitProveedor(nuevaData.getNitProveedor());
-		temp.setNombreProveedor(nuevaData.getNombreProveedor());
-		temp.setDireccionProveedor(nuevaData.getDireccionProveedor());
-		temp.setCiudadProveedor(nuevaData.getCiudadProveedor());
-		temp.setTelefonoProveedor(nuevaData.getTelefonoProveedor());
-		proveedorRepo.save(temp);
+        Proveedor temp = found.get();
+        temp.setNitProveedor(nuevaData.getNitProveedor());
+        temp.setNombreProveedor(nuevaData.getNombreProveedor());
+        temp.setDireccionProveedor(nuevaData.getDireccionProveedor());
+        temp.setCiudadProveedor(nuevaData.getCiudadProveedor());
+        temp.setTelefonoProveedor(nuevaData.getTelefonoProveedor());
+        proveedorRepo.save(temp);
 
-		return 0; // éxito
-	}
+        return 0; // actualización exitosa
+    }
 
-	@Override
-	public Optional<Proveedor> buscarPorId(Long id) {
-		return proveedorRepo.findById(id);
-	}
-	
-	public boolean findTitleAlreadyTaken(Proveedor newProveedor) {
-		Optional<Proveedor> found = proveedorRepo.findByNitProveedor(newProveedor.getNitProveedor());
-		if (found.isPresent()) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+    /**
+     * Finds a Proveedor by its ID.
+     *
+     * @param id the ID of the Proveedor
+     * @return Optional containing the Proveedor if found, empty otherwise
+     */
+    @Override
+    public Optional<Proveedor> buscarPorId(Long id) {
+        return proveedorRepo.findById(id);
+    }
+    
+    /**
+     * Checks if a Proveedor with the same NIT already exists.
+     *
+     * @param newProveedor the Proveedor to check
+     * @return true if NIT already exists, false otherwise
+     */
+    public boolean findTitleAlreadyTaken(Proveedor newProveedor) {
+        Optional<Proveedor> found = proveedorRepo.findByNitProveedor(newProveedor.getNitProveedor());
+        return found.isPresent();
+    }
 
 }
