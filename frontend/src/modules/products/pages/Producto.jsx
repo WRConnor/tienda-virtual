@@ -399,7 +399,10 @@ function Producto() {
           <input
             placeholder="Buscar producto..."
             value={busqueda}
-            onChange={(e)=>setBusqueda(e.target.value)}
+            onChange={(e)=> { setBusqueda(e.target.value);
+              setBusqueda(e.target.value);
+              setPaginaActual(1);
+            }}
           />
 
           <button onClick={exportarCSV}>
