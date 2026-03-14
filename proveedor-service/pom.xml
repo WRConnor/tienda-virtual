@@ -11,6 +11,7 @@
 	</parent>
 	<groupId>co.edu.unbosque</groupId>
 	<artifactId>proveedor-service</artifactId>
+	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>proveedor-service</name>
 	<description>Microservicio de Proveedores</description>
