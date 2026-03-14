@@ -11,6 +11,7 @@
 	</parent>
 	<groupId>co.edu.unbosque</groupId>
 	<artifactId>eureka-server</artifactId>
+	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>eureka-server</name>
 	<description>Eureka Server para registro de servicios</description>
@@ -29,6 +30,7 @@
 		</dependency>
 	</dependencies>
 	<build>
+	  <directory>C:/Users/Usuario/Documents/wars</directory>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

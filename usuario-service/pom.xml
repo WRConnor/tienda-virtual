@@ -11,6 +11,7 @@
 	</parent>
 	<groupId>co.edu.unbosque</groupId>
 	<artifactId>usuario-service</artifactId>
+	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>usuario-service</name>
 	<description>Microservicio de Usuarios</description>
